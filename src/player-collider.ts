@@ -1,4 +1,4 @@
-import { PlayerBuff } from './PlayerBuff';
+import { PlayerBuff } from './player-buff';
 import { Messages, Direction } from './playground';
 import * as ECS from '../libs/pixi-ecs';
 

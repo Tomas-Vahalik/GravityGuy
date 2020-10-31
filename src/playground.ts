@@ -1,9 +1,9 @@
 import * as ECS from '../libs/pixi-ecs/';
 import { KeyInputComponent } from '../libs/pixi-ecs/components/key-input-component';
-import { ObstacleCollider } from './ObstacleCollider';
-import { GarbageRemoval } from './GarbageRemoval';
-import { Shift } from './Shift';
-import { SceneManager } from './SceneManager';
+import { ObstacleCollider } from './obstacle-collider';
+import { GarbageRemoval } from './garbage-removal';
+import { Shift } from './shift';
+import { SceneManager } from './scene-manager';
 
 class Rect {
     x: number;

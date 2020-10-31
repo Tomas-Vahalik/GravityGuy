@@ -1,5 +1,5 @@
 import { Direction, Messages } from './playground';
-import { Shift } from "./Shift";
+import { Shift } from "./shift";
 import * as ECS from '../libs/pixi-ecs';
 
 export class PlayerMovement extends ECS.Component {
