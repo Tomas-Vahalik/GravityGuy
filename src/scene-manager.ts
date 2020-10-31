@@ -2,29 +2,27 @@ import { ObstacleCollider } from './obstacle-collider';
 import { PlayerMovement } from './player-movement';
 import { PlayerCollider } from './player-collider';
 import { GarbageRemoval } from './garbage-removal';
-import { Messages, objectEmitter } from './playground';
+import { Messages, objectEmitter, buffEmitter } from './playground';
+import { Map } from './base_elements/map';
 import * as ECS from '../libs/pixi-ecs';
+import { Maps } from './constants';
 
 export class SceneManager extends ECS.Component {
+    map: Maps = Maps.MAP_1;
     keyInput: ECS.KeyInputComponent;
+    loader: PIXI.Loader;
     running = true;
+
+    constructor(loader: PIXI.Loader) {
+        super();
+        this.loader = loader;
+    }
+
     onInit() {
         this.keyInput = this.scene.findGlobalComponentByName(ECS.KeyInputComponent.name);
-        //CREATE PLAYER
-        const player = new ECS.Graphics();
-        const size = 40;
-        player.beginFill(0xFFFFFF);
-        player.tint = 0xFF0000;
-        player.drawRect(0, 0, size, size);
-        player.name = 'PLAYER';
-        player.addTag('PLAYER');
-        player.endFill();
-        player.position.set(250, 250);
-        //player.addComponent(new ObstacleCollider(null));
-        player.addComponent(new PlayerCollider(null));
-        player.addComponent(new PlayerMovement(null));
-        player.addComponent(new GarbageRemoval(null));
-        this.scene.stage.addChild(player);
+
+        this.loadScene();
+
         //CREATE CEILING / FLOOR
         const ceiling = new ECS.Graphics();
         ceiling.beginFill(0xFFFFFF);
@@ -66,7 +64,34 @@ export class SceneManager extends ECS.Component {
         }
     }
     spawnObject() {
-        const newObj = objectEmitter(this.scene);
+        const newObj = objectEmitter(this.scene, null);
         this.scene.stage.addChild(newObj);
+    }
+
+    loadScene() {
+        const mapData = this.loader.resources[this.map].data as Map;
+        //CREATE PLAYER
+        const player = new ECS.Graphics();
+        player.beginFill(0xFFFFFF);
+        player.tint = 0xFF0000;
+        player.drawRect(0, 0, 40, 40);
+        player.name = 'PLAYER';
+        player.addTag('PLAYER');
+        player.endFill();
+        player.position.set(mapData.spawnpoint.x, mapData.spawnpoint.y);
+        //player.addComponent(new ObstacleCollider(null));
+        player.addComponent(new PlayerCollider(null));
+        player.addComponent(new PlayerMovement(null));
+        player.addComponent(new GarbageRemoval(null));
+        this.scene.stage.addChild(player);
+
+        mapData.blocks.forEach(blockPrefab => {
+            const newObj = objectEmitter(this.scene, blockPrefab);
+            this.scene.stage.addChild(newObj);
+        })
+        mapData.specialEffects.forEach(specialEffectPrefab => {
+            const newObj = buffEmitter(this.scene, specialEffectPrefab.block);
+            this.scene.stage.addChild(newObj);
+        })
     }
 }

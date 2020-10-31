@@ -1,0 +1,20 @@
+{
+    "spawnpoint" : {
+        "x": 15,
+        "y": 17
+    },
+    "blocks": [
+        { "pos": { "x": 30, "y": 70 }, "width": 20, "height": 10 },
+        { "pos": { "x": 30, "y": 200 }, "width": 50, "height": 50 },
+        { "pos": { "x": 330, "y": 70 }, "width": 50, "height": 70 },
+        { "pos": { "x": 690, "y": 70 }, "width": 77, "height": 20 },
+        { "pos": { "x": 790, "y": 70 }, "width": 40, "height": 16 },
+        { "pos": { "x": 790, "y": 150 }, "width": 20, "height": 101 },
+        { "pos": { "x": 850, "y": 30 }, "width": 33, "height": 94 },
+        { "pos": { "x": 840, "y": 500 }, "width": 40, "height": 35 }
+    ],
+    "specialEffects": [
+        { "type": 1, "block": { "pos": { "x": 350, "y": 500 }, "width": 10, "height": 10 } },
+        { "type": 1, "block": { "pos": { "x": 650, "y": 500 }, "width": 10, "height": 10 } }
+    ]
+}

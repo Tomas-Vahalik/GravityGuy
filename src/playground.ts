@@ -4,16 +4,7 @@ import { ObstacleCollider } from './obstacle-collider';
 import { GarbageRemoval } from './garbage-removal';
 import { Shift } from './shift';
 import { SceneManager } from './scene-manager';
-
-class Rect {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    constructor(x: number, y: number, w: number, h: number) {
-        this.x = x; this.y = y; this.width = w; this.height = h;
-    }
-}
+import { Block } from './base_elements/block';
 
 export enum Messages {
     OBJECT_POSITION = 'OBJECT_POSITION',
@@ -44,20 +35,31 @@ export enum Direction {
     LEFT = 'LEFT',
     RIGHT = 'RIGHT'
 }
-export const objectEmitter = (scene: ECS.Scene): ECS.Graphics => {
+export const objectEmitter = (scene: ECS.Scene, blockPrefab: Block): ECS.Graphics => {
     const obj = new ECS.Graphics();
     const sizeX = Math.random() * 200;
     const sizeY = Math.random() * 200;
 
-    const randomPosX = Math.random() * (scene.app.screen.width);
-    const randomPosY = Math.random() * (scene.app.screen.height);
-    var posX = scene.app.screen.width;
+    if (blockPrefab == null) {
+        const randomPosX = Math.random() * (scene.app.screen.width);
+        const randomPosY = Math.random() * (scene.app.screen.height);
+        var posX = scene.app.screen.width;
 
-    obj.beginFill(0xFFFFFF);
-    obj.drawRect(0, 0, sizeX, sizeY);
+        obj.beginFill(0xFFFFFF);
+        obj.drawRect(0, 0, sizeX, sizeY);
 
-    obj.endFill();
-    obj.position.set(posX, randomPosY);
+        obj.endFill();
+        obj.position.set(posX, randomPosY);
+    } else {
+        var posX = scene.app.screen.width;
+
+        obj.beginFill(0xFFFFFF);
+        obj.drawRect(0, 0, blockPrefab.width, blockPrefab.height);
+
+        obj.endFill();
+        obj.position.set(blockPrefab.pos.x, blockPrefab.pos.y);
+    }
+
     obj.addTag("OBJECT");
     obj.addComponent(new Shift(null));
     obj.addComponent(new GarbageRemoval(null));
@@ -65,21 +67,32 @@ export const objectEmitter = (scene: ECS.Scene): ECS.Graphics => {
 
     return obj;
 };
-const buffEmitter = (scene: ECS.Scene): ECS.Graphics => {
+export const buffEmitter = (scene: ECS.Scene, blockPrefab: Block): ECS.Graphics => {
     const obj = new ECS.Graphics();
     const sizeX = 20;
     const sizeY = 20;
 
-    const randomPosX = Math.random() * (scene.app.screen.width);
-    const randomPosY = Math.random() * (scene.app.screen.height);
-    var posX = scene.app.screen.width;
+    if (blockPrefab == null) {
+        const randomPosX = Math.random() * (scene.app.screen.width);
+        const randomPosY = Math.random() * (scene.app.screen.height);
+        var posX = scene.app.screen.width;
 
-    obj.beginFill(0xFFFFFF);
-    obj.tint = 0xFFFF00;
-    obj.drawRect(0, 0, sizeX, sizeY);
+        obj.beginFill(0xFFFF00);
+        obj.tint = 0xFFFF00;
+        obj.drawRect(0, 0, sizeX, sizeY);
 
-    obj.endFill();
-    obj.position.set(posX, randomPosY);
+        obj.endFill();
+        obj.position.set(posX, randomPosY);
+    } else {
+        var posX = scene.app.screen.width;
+
+        obj.beginFill(0xFFFF00);
+        obj.tint = 0xFFFF00;
+        obj.drawRect(0, 0, blockPrefab.width, blockPrefab.height);
+
+        obj.endFill();
+        obj.position.set(blockPrefab.pos.x, blockPrefab.pos.y);
+    }
     obj.addTag("BUFF");
     obj.addComponent(new Shift(null));
     obj.addComponent(new GarbageRemoval(null));
@@ -89,34 +102,27 @@ const buffEmitter = (scene: ECS.Scene): ECS.Graphics => {
 };
 
 export class Playground{
-
     offsetY = 500;
-    engine: ECS.Engine;
-    blocks: Rect[] = [];
+    blocks: Block[] = [];
     loadBlock: number;
-    constructor() {
-        this.engine = new ECS.Engine();
-        var canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
-        this.engine.init(canvas, {
-
-        });
+    engine: ECS.Engine;
+    constructor(engine: ECS.Engine) {
+        this.engine = engine;
 
         this.engine.scene.addGlobalComponent(new ECS.KeyInputComponent());
-        var SM = new SceneManager(null);
+        var SM = new SceneManager(this.engine.app.loader);
         this.engine.scene.addGlobalComponent(SM);
         this.engine.scene.addGlobalComponent(new ECS.FuncComponent('time spawner')
             .setFixedFrequency(3)
             .doOnFixedUpdate((cmp, delta, absolute) => {
                 var newObj;
                 if (Math.random() > 0.1) {
-                    newObj = objectEmitter(this.engine.scene);
+                    newObj = objectEmitter(this.engine.scene, null);
                 }
                 else {
-                    newObj = buffEmitter(this.engine.scene);
+                    newObj = buffEmitter(this.engine.scene, null);
                 }
-                this.engine.scene.stage.addChild(newObj);
+                //this.engine.scene.stage.addChild(newObj);
             }));
     }
 }
-
-export default new Playground();

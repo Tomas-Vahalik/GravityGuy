@@ -1,5 +1,7 @@
 import * as ECS from '../libs/pixi-ecs';
 import * as PIXI from 'pixi.js';
+import { Maps } from './constants';
+import { Playground } from './playground';
 
 // TODO rename your game
 class MyGame {
@@ -28,11 +30,13 @@ class MyGame {
 
 		this.engine.app.loader
 			.reset()
-			//.add(myFile, 'myFileUrl') load your assets here
+			.add(Maps.MAP_1, '../assets/maps/map_1.json')
 			.load(() => this.onAssetsLoaded());
 	}
 
 	onAssetsLoaded() {
+		console.log(this.engine.app.loader);
+		new Playground(this.engine);
 		// init the scene and run your game
 		/*let scene = this.engine.scene;
 		new ECS.Builder(scene)
