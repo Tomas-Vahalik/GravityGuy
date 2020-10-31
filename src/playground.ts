@@ -51,7 +51,7 @@ const objectEmitter = (scene: ECS.Scene): ECS.Graphics => {
 
     obj.beginFill(0xFFFFFF);
     obj.drawRect(0, 0, sizeX, sizeY);
-    
+
     obj.endFill();
     obj.position.set(posX, randomPosY);
     obj.addTag("OBJECT");
@@ -92,43 +92,42 @@ class SceneManager extends ECS.Component {
     onInit() {
         this.keyInput = this.scene.findGlobalComponentByName(ECS.KeyInputComponent.name);
         //CREATE PLAYER
-        const player = new ECS.Graphics();        
+        const player = new ECS.Graphics();
         const size = 40;
-        player.beginFill(0xFFFFFF);        
+        player.beginFill(0xFFFFFF);
         player.tint = 0xFF0000;
         player.drawRect(0, 0, size, size);
         player.name = 'PLAYER';
-        player.addTag('PLAYER');        
+        player.addTag('PLAYER');
 
         player.endFill();
-        player.position.set(250, 250);        
+        player.position.set(250, 250);
 
         //player.addComponent(new ObstacleCollider(null));
         player.addComponent(new PlayerCollider(null));
-        player.addComponent(new PlayerMovement(null));        
-        player.addComponent(new GarbageRemoval(null));        
+        player.addComponent(new PlayerMovement(null));
+        player.addComponent(new GarbageRemoval(null));
         this.scene.stage.addChild(player);
 
         //CREATE CEILING / FLOOR
-        const ceiling = new ECS.Graphics();        
+        const ceiling = new ECS.Graphics();
         ceiling.beginFill(0xFFFFFF);
         ceiling.drawRect(0, 0, this.scene.app.screen.width, 30);
         ceiling.endFill();
-        ceiling.addComponent(new ObstacleCollider(null)); 
+        ceiling.addComponent(new ObstacleCollider(null));
         this.scene.stage.addChild(ceiling);
 
         const floor = new ECS.Graphics();
         floor.beginFill(0xFFFFFF);
         floor.drawRect(0, 0, this.scene.app.screen.width, 30);
-        floor.position.set(0, this.scene.app.screen.height - 30); 
+        floor.position.set(0, this.scene.app.screen.height - 30);
         floor.endFill();
         floor.addComponent(new ObstacleCollider(null));
-        this.scene.stage.addChild(floor);     
-
+        this.scene.stage.addChild(floor);
     }
 
 
-    onUpdate(delta: number, absolute: number) {        
+    onUpdate(delta: number, absolute: number) {
         if (this.keyInput.isKeyPressed(ECS.Keys.KEY_Q)) {
             this.keyInput.handleKey(ECS.Keys.KEY_Q);
             this.spawnObject();
@@ -152,14 +151,12 @@ class SceneManager extends ECS.Component {
             this.keyInput.handleKey(ECS.Keys.KEY_SPACE);
             this.sendMessage(Messages.FLIP_GRAVITY);
         }
-        
     }
 
     spawnObject() {
         const newObj = objectEmitter(this.scene);
         this.scene.stage.addChild(newObj);
     }
-    
 }
 
 class ObstacleCollider extends ECS.Component {
@@ -170,13 +167,12 @@ class ObstacleCollider extends ECS.Component {
     onUpdate(delta: number, absolute: number) {
         var bounds = this.owner.getBounds();
 
-        this.sendMessage(Messages.OBJECT_POSITION, bounds); 
+        this.sendMessage(Messages.OBJECT_POSITION, bounds);
     }
     onMessage(msg: ECS.Message) {
-        
     }
     onRemove() {
-        this.sendMessage(Messages.COLLISION_TOP_END); 
+        this.sendMessage(Messages.COLLISION_TOP_END);
         this.sendMessage(Messages.COLLISION_BOT_END);
     }
 }
@@ -199,7 +195,7 @@ class PlayerBuff extends ECS.Component {
     }
     onInit() {
         this.subscribe(Messages.COLLISION_RIGHT);
-        this.subscribe(Messages.COLLISION_RIGHT_END);        
+        this.subscribe(Messages.COLLISION_RIGHT_END);
     }
     onMessage(msg: ECS.Message) {
         if (msg.action == Messages.COLLISION_RIGHT) {
@@ -212,12 +208,11 @@ class PlayerBuff extends ECS.Component {
                 canMove: true
             });
         }
-        
     }
     onUpdate(delta: number, absolute: number) {
         if (this.state.canMove) {
             this.owner.position.x += 0.03 * delta;
-        }        
+        }
         this.state.durationLeft-= delta;
         if (this.state.durationLeft <= 0) {
             this.owner.asGraphics().tint = 0xFF0000;
@@ -226,12 +221,12 @@ class PlayerBuff extends ECS.Component {
     }
 }
 class PlayerMovement extends ECS.Component {
-    state = {        
+    state = {
         dir: Direction.DOWN,
         flipPressed: false,
         canFlip: false,
         allowedUp: true,
-        allowedDown: true,        
+        allowedDown: true,
         running: true
     }
     private modifyState(obj) {
@@ -240,7 +235,7 @@ class PlayerMovement extends ECS.Component {
             ...obj
         }
     }
-    onInit() {        
+    onInit() {
         /*this.subscribe(Messages.COLLISION);
         this.subscribe(Messages.COLLISION_END); */
 
@@ -260,11 +255,11 @@ class PlayerMovement extends ECS.Component {
         this.subscribe(Messages.PLAYER_RESET);
 
     }
-    onMessage(msg: ECS.Message) {       
+    onMessage(msg: ECS.Message) {
         if (msg.action === Messages.COLLISION_TOP) {
             this.owner.asGraphics().tint = 0x00FF00;
             //if 'flip' was pressed, flip gravity
-            if (this.state.flipPressed) {                
+            if (this.state.flipPressed) {
                 this.modifyState({
                     dir: Direction.DOWN,
                     flipPressed: false
@@ -302,21 +297,20 @@ class PlayerMovement extends ECS.Component {
                     canFlip:true
                 });
             }
-            
         }
         if (msg.action === Messages.COLLISION_BOT_END) {
             this.owner.asGraphics().tint = 0xFF0000;
             //allow movement down and disable flip
             this.modifyState({
                 allowedDown: true,
-                canFlip:false                
+                canFlip:false
             });
         }
         if (msg.action === Messages.COLLISION_RIGHT) {
             //make player go left
-            this.owner.addComponent(new Shift(null));         
+            this.owner.addComponent(new Shift(null));
         }
-        if (msg.action === Messages.COLLISION_RIGHT_END) { 
+        if (msg.action === Messages.COLLISION_RIGHT_END) {
             //stop shifting player
             var shift = this.owner.findComponentByName('Shift');
             if(shift) this.owner.removeComponent(shift);
@@ -345,17 +339,16 @@ class PlayerMovement extends ECS.Component {
             }
             //else remember to flip on next top/bot collision
             else {
-                this.modifyState({                  
+                this.modifyState({
                     flipPressed: true
                 });
-            }            
-            
+            }
         }
-        if (msg.action === Messages.PLAYER_RESET) {            
+        if (msg.action === Messages.PLAYER_RESET) {
             //reset player attributes
             var shift = this.owner.findComponentByName('Shift');
             if (shift) this.owner.removeComponent(shift);
-            this.owner.position.set(300, 250);            
+            this.owner.position.set(300, 250);
             this.modifyState({
                 allowedUp: true,
                 allowedDown: true,
@@ -364,29 +357,29 @@ class PlayerMovement extends ECS.Component {
     }
     onUpdate(delta: number, absolute: number) {
         if (this.state.running == false) return;
-        
-            const dir = this.state.dir;
-            const pos = this.owner.position;
-            const scrWidth = this.scene.app.screen.width;
-            const scrHeight = this.scene.app.screen.height;
-            const boundRect = this.owner.getBounds();
-            const diff = delta * 0.6
-            let newDir = dir;
-            //move player up or down
-            switch (dir) {
-                case Direction.DOWN:
-                    if(this.state.allowedDown) pos.y += diff;                    
-                    break;
-                case Direction.UP:
-                    if (this.state.allowedUp) pos.y -= diff;                    
-                    break;
-            }            
+
+        const dir = this.state.dir;
+        const pos = this.owner.position;
+        const scrWidth = this.scene.app.screen.width;
+        const scrHeight = this.scene.app.screen.height;
+        const boundRect = this.owner.getBounds();
+        const diff = delta * 0.6
+        let newDir = dir;
+        //move player up or down
+        switch (dir) {
+            case Direction.DOWN:
+                if(this.state.allowedDown) pos.y += diff;
+                break;
+            case Direction.UP:
+                if (this.state.allowedUp) pos.y -= diff;
+                break;
+        }
     }
 }
 class PlayerCollider extends ECS.Component {
     state = {
         //map of objects that the player collides
-        inCollisionWith: new Map(),             
+        inCollisionWith: new Map(),
         running: true
     }
     private modifyState(obj) {
@@ -396,11 +389,10 @@ class PlayerCollider extends ECS.Component {
         }
     }
     onInit() {
-        this.subscribe(Messages.OBJECT_POSITION);        
+        this.subscribe(Messages.OBJECT_POSITION);
         this.subscribe(Messages.OBJECT_DESTROYED);
         this.subscribe(Messages.FREEZE);
         this.subscribe(Messages.UNFREEZE);
-        
     }
     //checks if player collides with given object
     checkCollisionWith(bounds: PIXI.Rectangle, otherBounds: PIXI.Rectangle): boolean {
@@ -419,27 +411,27 @@ class PlayerCollider extends ECS.Component {
 
         if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision) {
             //bottom collision
-            console.log('bottom');            
+            console.log('bottom');
             return Direction.DOWN;
         }
         if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision) {
             //top collision
-            console.log('top');            
+            console.log('top');
             return Direction.UP;
         }
         if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision) {
             //right collision
-            console.log('right');            
+            console.log('right');
             return Direction.RIGHT;
         }
         if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision) {
             //left collision
-            console.log('left');            
+            console.log('left');
             return Direction.LEFT;
         }
     }
     onMessage(msg: ECS.Message) {
-        
+
         if (msg.action === Messages.FREEZE) {
             this.modifyState({
                 running: false
@@ -449,10 +441,10 @@ class PlayerCollider extends ECS.Component {
             this.modifyState({
                 running: true
             });
-        }        
+        }
         if (msg.action === Messages.OBJECT_POSITION) {
             var bounds = this.owner.getBounds();
-            var otherBounds = msg.data;            
+            var otherBounds = msg.data;
             var dir: Direction = Direction.DOWN;
             //check if player collides
             if (this.checkCollisionWith(bounds, otherBounds)) {
@@ -464,11 +456,11 @@ class PlayerCollider extends ECS.Component {
                     return;
                 }
                 //get direction of collision
-                dir = this.checkCollisionDirection(bounds, otherBounds);            
+                dir = this.checkCollisionDirection(bounds, otherBounds);
                 //If not alredy in collision with this object
                 if (!this.state.inCollisionWith.has(msg.gameObject)) {
                     //remember I am in cllision with this object
-                    this.state.inCollisionWith.set(msg.gameObject, dir);                                        
+                    this.state.inCollisionWith.set(msg.gameObject, dir);
                     msg.component.owner.asGraphics().tint = 0xFF0000;
                     //send message that collision occured
                     switch (dir) {
@@ -486,13 +478,12 @@ class PlayerCollider extends ECS.Component {
                             break;
                     }
                     this.sendMessage(Messages.COLLISION);
-                    
                 }
             }
             //check end of collision
-            else {    
+            else {
                 //if i am with collision with this object
-                if (this.state.inCollisionWith.has(msg.gameObject)) {                    
+                if (this.state.inCollisionWith.has(msg.gameObject)) {
                     msg.component.owner.asGraphics().tint = 0xFFFFFF;
                     var dir = this.state.inCollisionWith.get(msg.gameObject);
                     //forget this object
@@ -511,8 +502,7 @@ class PlayerCollider extends ECS.Component {
                         case Direction.RIGHT:
                             this.sendMessage(Messages.COLLISION_RIGHT_END);
                             break;
-                    }                  
-                    
+                    }
                 }
             }
         }
@@ -544,13 +534,12 @@ class PlayerCollider extends ECS.Component {
     }
     onUpdate(delta: number, absolute: number) {
     }
-    
 }
 
 class GarbageRemoval extends ECS.Component {
-    onUpdate(delta: number, absolute: number) {        
+    onUpdate(delta: number, absolute: number) {
         var bounds = this.owner.getBounds();
-        
+
         if (bounds.right < 0 || bounds.top < 0 || bounds.bottom > this.scene.app.screen.height) {
             //if player has fallen, reset him
             if (this.owner.hasTag('PLAYER')) {
@@ -561,14 +550,11 @@ class GarbageRemoval extends ECS.Component {
                 this.sendMessage(Messages.OBJECT_DESTROYED);
                 this.scene.stage.removeChild(this.owner);
             }
-
         }
-
     }
-}   
+}
 
 class Shift extends ECS.Component {
-    
     state = {
         running: true
     }
@@ -578,7 +564,7 @@ class Shift extends ECS.Component {
             ...obj
         }
     }
-    onInit() {              
+    onInit() {
         this.subscribe(Messages.FREEZE);
         this.subscribe(Messages.UNFREEZE);
     }
@@ -599,12 +585,11 @@ class Shift extends ECS.Component {
     onUpdate(delta: number, absolute: number) {
         //move object left
         if (this.state.running == false) return;
-        
+
         var x = this.owner.position.x;
         var y = this.owner.position.y;
         this.owner.position.set(x - 0.5 * delta, y);
-        var bounds = this.owner.getBounds();        
-        
+        var bounds = this.owner.getBounds();
     }
 }
 
@@ -619,8 +604,7 @@ export class Playground{
         var canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
         this.engine.init(canvas, {
 
-        });        
-        
+        });
 
         this.engine.scene.addGlobalComponent(new ECS.KeyInputComponent());
         var SM = new SceneManager(null);
@@ -635,12 +619,9 @@ export class Playground{
                 else {
                     newObj = buffEmitter(this.engine.scene);
                 }
-                this.engine.scene.stage.addChild(newObj);                
+                this.engine.scene.stage.addChild(newObj);
             }));
-       
     }
-
-    
 }
 
 export default new Playground();
