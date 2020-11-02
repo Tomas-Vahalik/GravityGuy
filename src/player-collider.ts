@@ -2,6 +2,7 @@ import { PlayerBuff } from './player-buff';
 import { Messages, Direction } from './playground';
 import * as ECS from '../libs/pixi-ecs';
 
+//TODO: Presunout pridavani buffu na lepsi misto, vyresit collision left
 export class PlayerCollider extends ECS.Component {
     state = {
         //map of objects that the player collides
@@ -36,24 +37,24 @@ export class PlayerCollider extends ECS.Component {
         var t_collision = bounds.bottom - otherBounds.y;
         var l_collision = bounds.right - otherBounds.x;
         var r_collision = otherBounds.right - bounds.x;
+        
         if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision) {
-            //bottom collision
-            console.log('bottom');
+            //bottom collision            
             return Direction.DOWN;
         }
         if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision) {
             //top collision
-            console.log('top');
+            
             return Direction.UP;
         }
         if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision) {
             //right collision
-            console.log('right');
+            
             return Direction.RIGHT;
         }
         if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision) {
             //left collision
-            console.log('left');
+            
             return Direction.LEFT;
         }
     }
@@ -85,22 +86,28 @@ export class PlayerCollider extends ECS.Component {
                 dir = this.checkCollisionDirection(bounds, otherBounds);
                 //If not alredy in collision with this object
                 if (!this.state.inCollisionWith.has(msg.gameObject)) {
-                    //remember I am in cllision with this object
+                    //remember I am in collision with this object
                     this.state.inCollisionWith.set(msg.gameObject, dir);
-                    msg.component.owner.asGraphics().tint = 0xFF0000;
+                    //msg.component.owner.asGraphics().tint = 0xFF0000;
                     //send message that collision occured
                     switch (dir) {
                         case Direction.UP:
-                            this.sendMessage(Messages.COLLISION_TOP);
+                            this.owner.position.y = msg.component.owner.getBounds().bottom - 1;
+                            this.sendMessage(Messages.COLLISION_TOP);    
+                            console.log("top");
                             break;
-                        case Direction.DOWN:
-                            this.sendMessage(Messages.COLLISION_BOT);
+                        case Direction.DOWN:                            
+                            this.owner.position.y = msg.component.owner.getBounds().top - this.owner.getBounds().height + 1;
+                            this.sendMessage(Messages.COLLISION_BOT);                            
+                            console.log("bot");
                             break;
                         case Direction.LEFT:
                             this.sendMessage(Messages.COLLISION_LEFT);
                             break;
                         case Direction.RIGHT:
-                            this.sendMessage(Messages.COLLISION_RIGHT);
+                            this.owner.position.x = msg.component.owner.getBounds().left - this.owner.getBounds().width + 1;
+                            this.sendMessage(Messages.COLLISION_RIGHT);                            
+                            console.log("right");
                             break;
                     }
                     this.sendMessage(Messages.COLLISION);
@@ -110,7 +117,7 @@ export class PlayerCollider extends ECS.Component {
             else {
                 //if i am with collision with this object
                 if (this.state.inCollisionWith.has(msg.gameObject)) {
-                    msg.component.owner.asGraphics().tint = 0xFFFFFF;
+                    //msg.component.owner.asGraphics().tint = 0xFFFFFF;
                     let dir = this.state.inCollisionWith.get(msg.gameObject);
                     //forget this object
                     this.state.inCollisionWith.delete(msg.gameObject);
@@ -135,7 +142,7 @@ export class PlayerCollider extends ECS.Component {
         if (msg.action === Messages.OBJECT_DESTROYED) {
             ///check for end of collision
             if (this.state.inCollisionWith.has(msg.gameObject)) {
-                msg.component.owner.asGraphics().tint = 0xFFFFFF;
+                //msg.component.owner.asGraphics().tint = 0xFFFFFF;
                 let dir = this.state.inCollisionWith.get(msg.gameObject);
                 this.state.inCollisionWith.delete(msg.gameObject);
                 //send message

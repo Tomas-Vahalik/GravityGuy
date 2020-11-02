@@ -1,7 +1,7 @@
 import { Direction, Messages } from './playground';
 import { Shift } from "./shift";
 import * as ECS from '../libs/pixi-ecs';
-
+//TODO: kolize nahore i dole vyreseno? (ale hnusne)
 export class PlayerMovement extends ECS.Component {
     state = {
         dir: Direction.DOWN,
@@ -34,13 +34,14 @@ export class PlayerMovement extends ECS.Component {
         this.subscribe(Messages.PLAYER_RESET);
     }
     onMessage(msg: ECS.Message) {
-        if (msg.action === Messages.COLLISION_TOP) {
-            this.owner.asGraphics().tint = 0x00FF00;
+        if (msg.action === Messages.COLLISION_TOP) {            
+            //this.owner.asGraphics().tint = 0x00FF00;            
             //if 'flip' was pressed, flip gravity
             if (this.state.flipPressed) {
                 this.modifyState({
                     dir: Direction.DOWN,
-                    flipPressed: false
+                    flipPressed: false,
+                    canFlip: false
                 });
             }
             //block movement up and allow 'flip'
@@ -52,20 +53,29 @@ export class PlayerMovement extends ECS.Component {
             }
         }
         if (msg.action === Messages.COLLISION_TOP_END) {
-            this.owner.asGraphics().tint = 0xFF0000;
+            //this.owner.asGraphics().tint = 0xFF0000;
             //allow movement up and disable flip
-            this.modifyState({
-                allowedUp: true,
-                canFlip: false
-            });
+            if (this.state.allowedDown == false) {
+                this.modifyState({
+                    allowedUp: true,
+                });
+            }
+            else {
+                this.modifyState({
+                    allowedUp: true,
+                    canFlip: false
+                });
+            }
+           
         }
-        if (msg.action === Messages.COLLISION_BOT) {
-            this.owner.asGraphics().tint = 0x0000FF;
+        if (msg.action === Messages.COLLISION_BOT) {            
+            //this.owner.asGraphics().tint = 0x0000FF;            
             //if 'flip' was pressed, flip gravity
             if (this.state.flipPressed) {
                 this.modifyState({
                     dir: Direction.UP,
-                    flipPressed: false
+                    flipPressed: false,
+                    canFlip: false
                 });
             }
             //else block movement down and allow flip
@@ -77,7 +87,12 @@ export class PlayerMovement extends ECS.Component {
             }
         }
         if (msg.action === Messages.COLLISION_BOT_END) {
-            this.owner.asGraphics().tint = 0xFF0000;
+            //this.owner.asGraphics().tint = 0xFF0000;
+            if (this.state.allowedUp == false) {
+                this.modifyState({
+                    allowedDown: true,                    
+                });
+            }
             //allow movement down and disable flip
             this.modifyState({
                 allowedDown: true,
@@ -106,8 +121,8 @@ export class PlayerMovement extends ECS.Component {
             });
         }
         if (msg.action === Messages.FLIP_GRAVITY) {
-            //if the player is running on surface, flip gravity
-            if (this.state.canFlip) {
+            //if the player is running on surface, flip gravity            
+            if (this.state.canFlip) {                  
                 var newDir: Direction;
                 if (this.state.dir == Direction.DOWN)
                     newDir = Direction.UP;
@@ -119,7 +134,7 @@ export class PlayerMovement extends ECS.Component {
                 });
             }
             //else remember to flip on next top/bot collision
-            else {
+            else {                
                 this.modifyState({
                     flipPressed: true
                 });

@@ -122,7 +122,7 @@ export class Playground{
                 else {
                     newObj = buffEmitter(this.engine.scene, null);
                 }
-                //this.engine.scene.stage.addChild(newObj);
+                this.engine.scene.stage.addChild(newObj);
             }));
     }
 }
