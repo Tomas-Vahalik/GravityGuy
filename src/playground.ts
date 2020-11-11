@@ -10,8 +10,8 @@ import { LoadManager, objectEmitter, buffEmitter } from './load-manager';
 export enum Messages {
     OBJECT_POSITION = 'OBJECT_POSITION',
     OBJECT_DESTROYED = 'OBJECT_DESTROYED',
-    COLLISION = 'COLLISION',
-    COLLISION_END = 'COLLISION_END',
+    /*COLLISION = 'COLLISION',
+    COLLISION_END = 'COLLISION_END',*/
 
     COLLISION_TOP = 'COLLISION_TOP',
     COLLISION_TOP_END = 'COLLISION_TOP_END',
@@ -31,7 +31,9 @@ export enum Messages {
     BUFF = 'BUFF',
     LOAD_CHECKPOINT = 'LOAD_CHECKPOINT',
     SAVE_CHECKPOINT = 'SAVE_CHECKPOINT',
-    CHECKPOINT_REACHED = 'CHECKPOINT_REACHED'
+
+    PLAYER_DIRECTION = 'PLAYER_DIRECTION'
+    
 }
 export enum Direction {
     UP = 'UP',

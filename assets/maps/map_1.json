@@ -1,8 +1,9 @@
 {
     "spawnpoint" : {
-        "x": 15,
-        "y": 17
-    },
+        "x": 300,
+        "y": 250
+    },    
+    "dir":"UP",
     "blocks": [
         { "pos": { "x": 30, "y": 70 }, "width": 20, "height": 10 },
         { "pos": { "x": 30, "y": 200 }, "width": 50, "height": 50 },
@@ -11,7 +12,29 @@
         { "pos": { "x": 790, "y": 70 }, "width": 40, "height": 16 },
         { "pos": { "x": 790, "y": 150 }, "width": 20, "height": 101 },
         { "pos": { "x": 850, "y": 30 }, "width": 33, "height": 94 },
-        { "pos": { "x": 840, "y": 500 }, "width": 40, "height": 35 }
+        { "pos": { "x": 840, "y": 500 }, "width": 400, "height": 35 },
+        { "pos": { "x": 2240, "y": 68 }, "width": 400, "height": 35 }       
+        
+    ],    
+    "blocks_1": [
+        { "pos": { "x": 0, "y": 570 }, "width": 820, "height": 30 },
+        { "pos": { "x": 800, "y": 540 }, "width": 760, "height": 30 },
+        { "pos": { "x": 830, "y": 510 }, "width": 700, "height": 30 },
+        { "pos": { "x": 860, "y": 480 }, "width": 640, "height": 30 },
+        { "pos": { "x": 890, "y": 450 }, "width": 580, "height": 30 },
+        { "pos": { "x": 920, "y": 420 }, "width": 520, "height": 30 },
+        { "pos": { "x": 950, "y": 390 }, "width": 460, "height": 30 },
+        { "pos": { "x": 980, "y": 360 }, "width": 400, "height": 30 },
+        { "pos": { "x": 1010, "y": 330 }, "width": 340, "height": 30 },
+        { "pos": { "x": 1040, "y": 300 }, "width": 280, "height": 30 },
+        { "pos": { "x": 1070, "y": 270 }, "width": 220, "height": 30 },
+        { "pos": { "x": 1100, "y": 240 }, "width": 160, "height": 30 },
+        { "pos": { "x": 1130, "y": 210 }, "width": 100, "height": 30 },
+        
+        { "pos": { "x": 1130, "y": 10 }, "width": 100, "height": 30 },
+        { "pos": { "x": 1400, "y": 300 }, "width": 500, "height": 30 }
+                 
+        
     ],
     "specialEffects": [
         { "type": 1, "block": { "pos": { "x": 350, "y": 500 }, "width": 10, "height": 10 } },

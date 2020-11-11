@@ -28,10 +28,13 @@ export class PlayerMovement extends ECS.Component {
         this.subscribe(Messages.COLLISION_LEFT_END);
         this.subscribe(Messages.COLLISION_RIGHT);
         this.subscribe(Messages.COLLISION_RIGHT_END);
+
         this.subscribe(Messages.FREEZE);
         this.subscribe(Messages.UNFREEZE);
         this.subscribe(Messages.FLIP_GRAVITY);
+
         this.subscribe(Messages.LOAD_CHECKPOINT);
+        this.subscribe(Messages.PLAYER_DIRECTION);
     }
     onMessage(msg: ECS.Message) {
         if (msg.action === Messages.COLLISION_TOP) {            
@@ -145,17 +148,11 @@ export class PlayerMovement extends ECS.Component {
                 });
             }
         }
-        /*if (msg.action === Messages.LOAD_CHECKPOINT) {
-            //reset player attributes
-            var shift = this.owner.findComponentByName('Shift');
-            if (shift)
-                this.owner.removeComponent(shift);
-            this.owner.position.set(300, 250);
+        if (msg.action === Messages.PLAYER_DIRECTION) {            
             this.modifyState({
-                allowedUp: true,
-                allowedDown: true,
+                dir: msg.data
             });
-        }*/
+        }
     }
     onUpdate(delta: number, absolute: number) {
         if (this.state.running == false)

@@ -36,8 +36,8 @@ class MyGame {
        
 	}
 
-	onAssetsLoaded() {
-		console.log(this.engine.app.loader);
+    onAssetsLoaded() {
+        //console.log(this.engine.app.loader.resources);
 		new Playground(this.engine);
 		// init the scene and run your game
 		/*let scene = this.engine.scene;

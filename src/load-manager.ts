@@ -2,13 +2,14 @@ import { ObstacleCollider } from './obstacle-collider';
 import { PlayerMovement } from './player-movement';
 import { PlayerCollider } from './player-collider';
 import { GarbageRemoval } from './garbage-removal';
-import { Messages} from './playground';
+import { Messages, Direction} from './playground';
 import { Map } from './base_elements/map';
 import * as ECS from '../libs/pixi-ecs';
 import { Maps } from './constants';
 import { Block } from './base_elements/block';
 import { Shift } from './shift';
-import { Checkpoint } from './checkpoint';
+import { SpecialEffect } from './base_elements/special-effect';
+import { Position } from './base_elements/position';
 
 
 
@@ -84,19 +85,20 @@ export class LoadManager extends ECS.Component {
     mapData: Map;
     loader: PIXI.Loader;
     running = true;    
-
+    dir: Direction;
     constructor(loader: PIXI.Loader) {
         super();
         this.loader = loader;
     }
 
     onInit() {
-        this.subscribe(Messages.LOAD_CHECKPOINT, Messages.CHECKPOINT_REACHED);
+        this.subscribe(Messages.LOAD_CHECKPOINT, Messages.SAVE_CHECKPOINT, Messages.FLIP_GRAVITY);
 
-        this.mapName = Maps.MAP_1;
-        this.mapData = this.loader.resources[this.mapName].data as Map;
+        this.mapName = Maps.MAP_1;        
+        this.mapData = this.loader.resources[this.mapName].data as Map;        
         this.loadScene();
         this.addBorders();
+
         
     }
     onMessage(msg: ECS.Message) {
@@ -104,10 +106,38 @@ export class LoadManager extends ECS.Component {
             this.loadScene();
             this.addBorders();
         }
-        if (msg.action == Messages.CHECKPOINT_REACHED) {
-            this.mapData = msg.data;
+        if (msg.action == Messages.SAVE_CHECKPOINT) {
+            //this.mapData = msg.data;
+            this.mapData = new Map();
+            this.mapData.dir = this.dir;
+            //var block: Block;
+            for (var ch of this.scene.stage.children) {
+                var gameObject: ECS.Container = <ECS.Container>ch;
+                console.log();
+                switch (gameObject.tags.values().next().value) {
+                    case 'PLAYER':
+                        this.mapData.spawnpoint = new Position(gameObject.x, gameObject.y);
+                        break;
+                    case 'OBJECT':
+                        this.mapData.blocks.push(new Block(gameObject.x, gameObject.y, gameObject.width, gameObject.height));
+                        break;
+                    case 'BUFF':
+                        this.mapData.specialEffects.push(new SpecialEffect(1, new Block(gameObject.x, gameObject.y, gameObject.width, gameObject.height)));
+                        break;
+
+                }
+            }
+        }
+        if (msg.action == Messages.FLIP_GRAVITY) {            
+            if (this.dir == Direction.DOWN) {
+                this.dir = Direction.UP;                
+            }
+            else if (this.dir == Direction.UP) {
+                this.dir = Direction.DOWN;
+            }
         }
     }
+    
    
     spawnObject() {
         const newObj = objectEmitter(this.scene, null);
@@ -130,12 +160,9 @@ export class LoadManager extends ECS.Component {
         this.scene.stage.addChild(floor);
     }
     loadScene() {
+        console.log(this.mapData);        
         var ch = this.scene.stage.children.length;
         this.scene.stage.removeChildren(0, ch);
-        //var mapData;       
-        
-      
-
         //CREATE PLAYER
         const player = new ECS.Graphics();
         player.beginFill(0xFFFFFF);
@@ -151,6 +178,8 @@ export class LoadManager extends ECS.Component {
         player.addComponent(new GarbageRemoval(null));
         this.scene.stage.addChild(player);
 
+        this.dir = this.mapData.dir;
+        this.sendMessage(Messages.PLAYER_DIRECTION, this.dir);
         //add all obstacles
         this.mapData.blocks.forEach(blockPrefab => {
             const newObj = objectEmitter(this.scene, blockPrefab);
@@ -172,8 +201,7 @@ export class LoadManager extends ECS.Component {
         checkpoint.position.set(5000, 0);        
         checkpoint.addComponent(new Shift(null));
         checkpoint.addComponent(new ObstacleCollider(null));
-        checkpoint.addComponent(new GarbageRemoval(null));
-        checkpoint.addComponent(new Checkpoint(null));
+        checkpoint.addComponent(new GarbageRemoval(null));        
         this.scene.stage.addChild(checkpoint);
 
         const check2 = new ECS.Graphics();
@@ -187,7 +215,6 @@ export class LoadManager extends ECS.Component {
         check2.addComponent(new Shift(null));
         check2.addComponent(new ObstacleCollider(null));
         check2.addComponent(new GarbageRemoval(null));
-        check2.addComponent(new Checkpoint(null));
         this.scene.stage.addChild(check2);
       
     }
