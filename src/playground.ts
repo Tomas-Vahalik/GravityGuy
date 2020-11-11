@@ -5,6 +5,7 @@ import { GarbageRemoval } from './garbage-removal';
 import { Shift } from './shift';
 import { SceneManager } from './scene-manager';
 import { Block } from './base_elements/block';
+import { LoadManager, objectEmitter, buffEmitter } from './load-manager';
 
 export enum Messages {
     OBJECT_POSITION = 'OBJECT_POSITION',
@@ -27,7 +28,10 @@ export enum Messages {
     PLAYER_RESET = 'PLAYER_RESET',
     FLIP_GRAVITY = 'FLIP',
 
-    BUFF = 'BUFF'
+    BUFF = 'BUFF',
+    LOAD_CHECKPOINT = 'LOAD_CHECKPOINT',
+    SAVE_CHECKPOINT = 'SAVE_CHECKPOINT',
+    CHECKPOINT_REACHED = 'CHECKPOINT_REACHED'
 }
 export enum Direction {
     UP = 'UP',
@@ -35,71 +39,7 @@ export enum Direction {
     LEFT = 'LEFT',
     RIGHT = 'RIGHT'
 }
-export const objectEmitter = (scene: ECS.Scene, blockPrefab: Block): ECS.Graphics => {
-    const obj = new ECS.Graphics();
-    const sizeX = Math.random() * 200;
-    const sizeY = Math.random() * 200;
 
-    if (blockPrefab == null) {
-        const randomPosX = Math.random() * (scene.app.screen.width);
-        const randomPosY = Math.random() * (scene.app.screen.height);
-        var posX = scene.app.screen.width;
-
-        obj.beginFill(0xFFFFFF);
-        obj.drawRect(0, 0, sizeX, sizeY);
-
-        obj.endFill();
-        obj.position.set(posX, randomPosY);
-    } else {
-        var posX = scene.app.screen.width;
-
-        obj.beginFill(0xFFFFFF);
-        obj.drawRect(0, 0, blockPrefab.width, blockPrefab.height);
-
-        obj.endFill();
-        obj.position.set(blockPrefab.pos.x, blockPrefab.pos.y);
-    }
-
-    obj.addTag("OBJECT");
-    obj.addComponent(new Shift(null));
-    obj.addComponent(new GarbageRemoval(null));
-    obj.addComponent(new ObstacleCollider(null));
-
-    return obj;
-};
-export const buffEmitter = (scene: ECS.Scene, blockPrefab: Block): ECS.Graphics => {
-    const obj = new ECS.Graphics();
-    const sizeX = 20;
-    const sizeY = 20;
-
-    if (blockPrefab == null) {
-        const randomPosX = Math.random() * (scene.app.screen.width);
-        const randomPosY = Math.random() * (scene.app.screen.height);
-        var posX = scene.app.screen.width;
-
-        obj.beginFill(0xFFFF00);
-        obj.tint = 0xFFFF00;
-        obj.drawRect(0, 0, sizeX, sizeY);
-
-        obj.endFill();
-        obj.position.set(posX, randomPosY);
-    } else {
-        var posX = scene.app.screen.width;
-
-        obj.beginFill(0xFFFF00);
-        obj.tint = 0xFFFF00;
-        obj.drawRect(0, 0, blockPrefab.width, blockPrefab.height);
-
-        obj.endFill();
-        obj.position.set(blockPrefab.pos.x, blockPrefab.pos.y);
-    }
-    obj.addTag("BUFF");
-    obj.addComponent(new Shift(null));
-    obj.addComponent(new GarbageRemoval(null));
-    obj.addComponent(new ObstacleCollider(null));
-
-    return obj;
-};
 
 export class Playground{
     offsetY = 500;
@@ -110,8 +50,9 @@ export class Playground{
         this.engine = engine;
 
         this.engine.scene.addGlobalComponent(new ECS.KeyInputComponent());
-        var SM = new SceneManager(this.engine.app.loader);
-        this.engine.scene.addGlobalComponent(SM);
+        //var SM = new SceneManager(this.engine.app.loader);
+        this.engine.scene.addGlobalComponent(new SceneManager(null));
+        this.engine.scene.addGlobalComponent(new LoadManager(this.engine.app.loader));
         this.engine.scene.addGlobalComponent(new ECS.FuncComponent('time spawner')
             .setFixedFrequency(3)
             .doOnFixedUpdate((cmp, delta, absolute) => {
@@ -124,5 +65,6 @@ export class Playground{
                 }
                 this.engine.scene.stage.addChild(newObj);
             }));
+       
     }
 }

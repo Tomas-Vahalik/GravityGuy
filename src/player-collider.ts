@@ -40,24 +40,25 @@ export class PlayerCollider extends ECS.Component {
         
         if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision) {
             //bottom collision            
-            return Direction.DOWN;
+            //this.owner.asGraphics().tint = 0xFFFF00;
+            return Direction.DOWN;            
         }
         if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision) {
             //top collision
-            
+            //this.owner.asGraphics().tint = 0xFF00FF;
             return Direction.UP;
         }
         if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision) {
             //right collision
-            
+            //this.owner.asGraphics().tint = 0x00FFFF;
             return Direction.RIGHT;
         }
         if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision) {
             //left collision
-            
+            //this.owner.asGraphics().tint = 0xF0F0F0;
             return Direction.LEFT;
         }
-    }
+    }    
     onMessage(msg: ECS.Message) {
         if (msg.action === Messages.FREEZE) {
             this.modifyState({
@@ -80,6 +81,12 @@ export class PlayerCollider extends ECS.Component {
                     this.owner.addComponent(new PlayerBuff(null));
                     this.scene.stage.removeChild(msg.component.owner);
                     this.owner.asGraphics().tint = 0x00FFFF;
+                    return;
+                }
+                
+                if (msg.component.owner.hasTag('CHECKPOINT')) {
+                    this.sendMessage(Messages.SAVE_CHECKPOINT);
+                    this.scene.stage.removeChild(msg.component.owner);
                     return;
                 }
                 //get direction of collision
@@ -105,7 +112,7 @@ export class PlayerCollider extends ECS.Component {
                             this.sendMessage(Messages.COLLISION_LEFT);
                             break;
                         case Direction.RIGHT:
-                            this.owner.position.x = msg.component.owner.getBounds().left - this.owner.getBounds().width + 1;
+                            this.owner.position.x = msg.component.owner.getBounds().left - this.owner.getBounds().width +1;
                             this.sendMessage(Messages.COLLISION_RIGHT);                            
                             console.log("right");
                             break;

@@ -31,7 +31,7 @@ export class PlayerMovement extends ECS.Component {
         this.subscribe(Messages.FREEZE);
         this.subscribe(Messages.UNFREEZE);
         this.subscribe(Messages.FLIP_GRAVITY);
-        this.subscribe(Messages.PLAYER_RESET);
+        this.subscribe(Messages.LOAD_CHECKPOINT);
     }
     onMessage(msg: ECS.Message) {
         if (msg.action === Messages.COLLISION_TOP) {            
@@ -90,14 +90,17 @@ export class PlayerMovement extends ECS.Component {
             //this.owner.asGraphics().tint = 0xFF0000;
             if (this.state.allowedUp == false) {
                 this.modifyState({
-                    allowedDown: true,                    
-                });
+                    allowedDown: true,
+                });                
             }
             //allow movement down and disable flip
-            this.modifyState({
-                allowedDown: true,
-                canFlip: false
-            });
+            else {
+                this.modifyState({
+                    allowedDown: true,
+                    canFlip: false
+                });
+            }
+            
         }
         if (msg.action === Messages.COLLISION_RIGHT) {
             //make player go left
@@ -122,7 +125,8 @@ export class PlayerMovement extends ECS.Component {
         }
         if (msg.action === Messages.FLIP_GRAVITY) {
             //if the player is running on surface, flip gravity            
-            if (this.state.canFlip) {                  
+            if (this.state.canFlip) { 
+                //console.log("if");
                 var newDir: Direction;
                 if (this.state.dir == Direction.DOWN)
                     newDir = Direction.UP;
@@ -134,13 +138,14 @@ export class PlayerMovement extends ECS.Component {
                 });
             }
             //else remember to flip on next top/bot collision
-            else {                
+            else {    
+               //console.log("else");
                 this.modifyState({
                     flipPressed: true
                 });
             }
         }
-        if (msg.action === Messages.PLAYER_RESET) {
+        /*if (msg.action === Messages.LOAD_CHECKPOINT) {
             //reset player attributes
             var shift = this.owner.findComponentByName('Shift');
             if (shift)
@@ -150,7 +155,7 @@ export class PlayerMovement extends ECS.Component {
                 allowedUp: true,
                 allowedDown: true,
             });
-        }
+        }*/
     }
     onUpdate(delta: number, absolute: number) {
         if (this.state.running == false)

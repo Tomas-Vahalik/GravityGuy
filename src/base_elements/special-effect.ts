@@ -8,5 +8,9 @@ export enum SpecialEffectType {
 
 export class SpecialEffect {
 	type: SpecialEffectType;
-	block: Block;
+    block: Block;
+    constructor(type: SpecialEffectType, block:Block) {
+        this.type = type;
+        this.block = block;
+    }
 }

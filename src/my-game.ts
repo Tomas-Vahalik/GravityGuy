@@ -30,8 +30,10 @@ class MyGame {
 
 		this.engine.app.loader
 			.reset()
-			.add(Maps.MAP_1, '../assets/maps/map_1.json')
-			.load(() => this.onAssetsLoaded());
+            .add(Maps.MAP_1, '../assets/maps/map_1.json')
+            .add('Save', '../assets/save/save1.json')
+            .load(() => this.onAssetsLoaded());
+       
 	}
 
 	onAssetsLoaded() {

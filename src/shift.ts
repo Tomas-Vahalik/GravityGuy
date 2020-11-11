@@ -35,6 +35,6 @@ export class Shift extends ECS.Component {
         var x = this.owner.position.x;
         var y = this.owner.position.y;
         this.owner.position.set(x - 0.5 * delta, y);
-        var bounds = this.owner.getBounds();
+        //var bounds = this.owner.getBounds();
     }
 }
