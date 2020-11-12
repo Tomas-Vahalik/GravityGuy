@@ -1,8 +1,15 @@
 import { PlayerBuff } from './player-buff';
 import { Messages, Direction } from './playground';
 import * as ECS from '../libs/pixi-ecs';
-
-//TODO: Presunout pridavani buffu na lepsi misto, vyresit collision left
+export class CollisionDetails {
+    dir: Direction;
+    otherObject: ECS.Container;
+    constructor(d: Direction, o: ECS.Container) {
+        this.dir = d;
+        this.otherObject = o;
+    }
+}
+//TODO: vyresit collision left
 export class PlayerCollider extends ECS.Component {
     state = {
         //map of objects that the player collides
@@ -59,6 +66,24 @@ export class PlayerCollider extends ECS.Component {
             return Direction.LEFT;
         }
     }    
+    //prevent player from moving into obstacle
+    adaptPosition(otherBounds: PIXI.Rectangle, dir: Direction) {
+        switch (dir) {           
+            case Direction.UP:
+                this.owner.position.y = otherBounds.bottom - 1;
+                break;
+            case Direction.DOWN:
+                this.owner.position.y = otherBounds.top - this.owner.getBounds().height + 1;;
+                break;
+            case Direction.RIGHT:
+                this.owner.position.x = otherBounds.left - this.owner.getBounds().width + 1;
+                break;
+            case Direction.LEFT:
+                break;
+        }
+        
+    }
+
     onMessage(msg: ECS.Message) {
         if (msg.action === Messages.FREEZE) {
             this.modifyState({
@@ -73,101 +98,48 @@ export class PlayerCollider extends ECS.Component {
         if (msg.action === Messages.OBJECT_POSITION) {
             var bounds = this.owner.getBounds();
             var otherBounds = msg.data;
-            var dir: Direction = Direction.DOWN;
+          
             //check if player collides
-            if (this.checkCollisionWith(bounds, otherBounds)) {
-                if (msg.component.owner.hasTag('BUFF')) {
-                    //this.sendMessage(Messages.BUFF,msg.component.owner);
-                    this.owner.addComponent(new PlayerBuff(null));
-                    this.scene.stage.removeChild(msg.component.owner);
-                    this.owner.asGraphics().tint = 0x00FFFF;
-                    return;
-                }
-                
-                if (msg.component.owner.hasTag('CHECKPOINT')) {
-                    this.sendMessage(Messages.SAVE_CHECKPOINT);
-                    this.scene.stage.removeChild(msg.component.owner);
-                    return;
-                }
-                //get direction of collision
-                dir = this.checkCollisionDirection(bounds, otherBounds);
+            if (this.checkCollisionWith(bounds, otherBounds)) {            
+
                 //If not alredy in collision with this object
                 if (!this.state.inCollisionWith.has(msg.gameObject)) {
+                    //get direction of collision
+                    var dir = this.checkCollisionDirection(bounds, otherBounds);
                     //remember I am in collision with this object
-                    this.state.inCollisionWith.set(msg.gameObject, dir);
-                    //msg.component.owner.asGraphics().tint = 0xFF0000;
-                    //send message that collision occured
-                    switch (dir) {
-                        case Direction.UP:
-                            this.owner.position.y = msg.component.owner.getBounds().bottom - 1;
-                            this.sendMessage(Messages.COLLISION_TOP);    
-                            console.log("top");
-                            break;
-                        case Direction.DOWN:                            
-                            this.owner.position.y = msg.component.owner.getBounds().top - this.owner.getBounds().height + 1;
-                            this.sendMessage(Messages.COLLISION_BOT);                            
-                            console.log("bot");
-                            break;
-                        case Direction.LEFT:
-                            this.sendMessage(Messages.COLLISION_LEFT);
-                            break;
-                        case Direction.RIGHT:
-                            this.owner.position.x = msg.component.owner.getBounds().left - this.owner.getBounds().width +1;
-                            this.sendMessage(Messages.COLLISION_RIGHT);                            
-                            console.log("right");
-                            break;
-                    }
-                    this.sendMessage(Messages.COLLISION);
+                    this.state.inCollisionWith.set(msg.gameObject, dir);                 
+                    //adapt player position
+                    this.adaptPosition(otherBounds, dir);
+                    //send message
+                    this.sendMessage(Messages.COLLISION, new CollisionDetails(dir, msg.component.owner));
+                
+                    
+                    //msg.component.owner.asGraphics().tint = 0xFF0000;                                
                 }
             }
             //check end of collision
             else {
-                //if i am with collision with this object
-                if (this.state.inCollisionWith.has(msg.gameObject)) {
+                //if i am in collision with this object
+                if (this.state.inCollisionWith.has(msg.gameObject)) {                 
+
                     //msg.component.owner.asGraphics().tint = 0xFFFFFF;
-                    let dir = this.state.inCollisionWith.get(msg.gameObject);
+                    //get direction
+                    let dir = this.state.inCollisionWith.get(msg.gameObject);                   
                     //forget this object
                     this.state.inCollisionWith.delete(msg.gameObject);
-                    //send message that end of collision occured
-                    switch (dir) {
-                        case Direction.UP:
-                            this.sendMessage(Messages.COLLISION_TOP_END);
-                            break;
-                        case Direction.DOWN:
-                            this.sendMessage(Messages.COLLISION_BOT_END);
-                            break;
-                        case Direction.LEFT:
-                            this.sendMessage(Messages.COLLISION_LEFT_END);
-                            break;
-                        case Direction.RIGHT:
-                            this.sendMessage(Messages.COLLISION_RIGHT_END);
-                            break;
+                    var directions: string[] = Array.from(this.state.inCollisionWith.values());
+                    if (!directions.includes(dir)) {
+                        this.sendMessage(Messages.COLLISION_END, new CollisionDetails(dir, msg.component.owner));                    
                     }
+                    //send message                    
+                    
+                   
                 }
             }
         }
         if (msg.action === Messages.OBJECT_DESTROYED) {
-            ///check for end of collision
-            if (this.state.inCollisionWith.has(msg.gameObject)) {
-                //msg.component.owner.asGraphics().tint = 0xFFFFFF;
-                let dir = this.state.inCollisionWith.get(msg.gameObject);
-                this.state.inCollisionWith.delete(msg.gameObject);
-                //send message
-                switch (dir) {
-                    case Direction.UP:
-                        this.sendMessage(Messages.COLLISION_TOP_END);
-                        break;
-                    case Direction.DOWN:
-                        this.sendMessage(Messages.COLLISION_BOT_END);
-                        break;
-                    case Direction.LEFT:
-                        this.sendMessage(Messages.COLLISION_LEFT_END);
-                        break;
-                    case Direction.RIGHT:
-                        this.sendMessage(Messages.COLLISION_RIGHT_END);
-                        break;
-                }
-            }
+            //forget collision with object
+           this.state.inCollisionWith.delete(msg.gameObject);           
         }
     }
     onUpdate(delta: number, absolute: number) {

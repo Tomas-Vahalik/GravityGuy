@@ -1,4 +1,4 @@
-import { Messages } from './playground';
+import { Messages, Direction } from './playground';
 import * as ECS from '../libs/pixi-ecs';
 
 export class PlayerBuff extends ECS.Component {
@@ -19,16 +19,16 @@ export class PlayerBuff extends ECS.Component {
         });
     }
     onInit() {
-        this.subscribe(Messages.COLLISION_RIGHT);
-        this.subscribe(Messages.COLLISION_RIGHT_END);
+        this.subscribe(Messages.COLLISION);
+        this.subscribe(Messages.COLLISION_END);
     }
     onMessage(msg: ECS.Message) {
-        if (msg.action == Messages.COLLISION_RIGHT) {
+        if (msg.action == Messages.COLLISION && msg.data.dir == Direction.RIGHT) {
             this.modifyState({
                 canMove: false
             });
         }
-        if (msg.action == Messages.COLLISION_RIGHT_END) {
+        if (msg.action == Messages.COLLISION_END && msg.data.dir == Direction.RIGHT) {
             this.modifyState({
                 canMove: true
             });

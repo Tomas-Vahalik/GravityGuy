@@ -12,8 +12,7 @@ export class ObstacleCollider extends ECS.Component {
     }
     onMessage(msg: ECS.Message) {
     }
-    onRemove() {
-        this.sendMessage(Messages.COLLISION_TOP_END);
-        this.sendMessage(Messages.COLLISION_BOT_END);
+    onDetach() {        
+        this.sendMessage(Messages.OBJECT_DESTROYED);        
     }
 }
