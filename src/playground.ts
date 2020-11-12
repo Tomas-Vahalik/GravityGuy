@@ -10,8 +10,8 @@ import { LoadManager, objectEmitter, buffEmitter } from './load-manager';
 export enum Messages {
     OBJECT_POSITION = 'OBJECT_POSITION',
     OBJECT_DESTROYED = 'OBJECT_DESTROYED',
-    /*COLLISION = 'COLLISION',
-    COLLISION_END = 'COLLISION_END',*/
+    COLLISION = 'COLLISION',
+    COLLISION_END = 'COLLISION_END',
 
     COLLISION_TOP = 'COLLISION_TOP',
     COLLISION_TOP_END = 'COLLISION_TOP_END',

@@ -112,8 +112,7 @@ export class LoadManager extends ECS.Component {
             this.mapData.dir = this.dir;
             //var block: Block;
             for (var ch of this.scene.stage.children) {
-                var gameObject: ECS.Container = <ECS.Container>ch;
-                console.log();
+                var gameObject: ECS.Container = <ECS.Container>ch;                
                 switch (gameObject.tags.values().next().value) {
                     case 'PLAYER':
                         this.mapData.spawnpoint = new Position(gameObject.x, gameObject.y);
@@ -149,6 +148,7 @@ export class LoadManager extends ECS.Component {
         ceiling.beginFill(0xFFFFFF);
         ceiling.drawRect(0, 0, this.scene.app.screen.width, 30);
         ceiling.endFill();
+        ceiling.addTag("OBJECT");
         ceiling.addComponent(new ObstacleCollider(null));
         this.scene.stage.addChild(ceiling);
         const floor = new ECS.Graphics();
@@ -156,11 +156,12 @@ export class LoadManager extends ECS.Component {
         floor.drawRect(0, 0, this.scene.app.screen.width, 30);
         floor.position.set(0, this.scene.app.screen.height - 30);
         floor.endFill();
+        floor.addTag("OBJECT");
         floor.addComponent(new ObstacleCollider(null));
         this.scene.stage.addChild(floor);
     }
     loadScene() {
-        console.log(this.mapData);        
+        //console.log(this.mapData);        
         var ch = this.scene.stage.children.length;
         this.scene.stage.removeChildren(0, ch);
         //CREATE PLAYER
