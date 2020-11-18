@@ -7,6 +7,7 @@ import { Map } from './base_elements/map';
 import * as ECS from '../libs/pixi-ecs';
 import { Maps } from './constants';
 import { Block } from './base_elements/block';
+import { Checkpoint } from './base_elements/checkpoint';
 import { Shift } from './shift';
 import { SpecialEffect } from './base_elements/special-effect';
 import { Position } from './base_elements/position';
@@ -78,6 +79,26 @@ export const buffEmitter = (scene: ECS.Scene, blockPrefab: Block): ECS.Graphics 
 
     return obj;
 };
+export const checkpointEmitter = (scene: ECS.Scene, blockPrefab: Block): ECS.Graphics => {
+    const obj = new ECS.Graphics();
+    const sizeX = 20;
+    const sizeY = scene.height;
+    
+
+        obj.beginFill(0x0000FF);
+        obj.drawRect(0, 0, blockPrefab.width, blockPrefab.height);
+
+        obj.endFill();
+        obj.position.set(blockPrefab.pos.x, blockPrefab.pos.y);
+    
+
+    obj.addTag("CHECKPOINT");
+    obj.addComponent(new Shift(null));
+    obj.addComponent(new GarbageRemoval(null));
+    obj.addComponent(new ObstacleCollider(null));
+
+    return obj;
+};
 
 
 export class LoadManager extends ECS.Component {
@@ -97,14 +118,14 @@ export class LoadManager extends ECS.Component {
         this.mapName = Maps.MAP_1;        
         this.mapData = this.loader.resources[this.mapName].data as Map;        
         this.loadScene();
-        this.addBorders();
+       // this.addBorders();
 
         
     }
     onMessage(msg: ECS.Message) {
         if (msg.action == Messages.LOAD_CHECKPOINT) {
             this.loadScene();
-            this.addBorders();
+           // this.addBorders();
         }
         if (msg.action == Messages.SAVE_CHECKPOINT) {
             //this.mapData = msg.data;
@@ -123,6 +144,8 @@ export class LoadManager extends ECS.Component {
                     case 'BUFF':
                         this.mapData.specialEffects.push(new SpecialEffect(1, new Block(gameObject.x, gameObject.y, gameObject.width, gameObject.height)));
                         break;
+                    case 'CHECKPOINT':
+                        this.mapData.checkpoints.push(new Checkpoint(new Block(gameObject.x, gameObject.y, gameObject.width, gameObject.height)));
 
                 }
             }
@@ -191,32 +214,11 @@ export class LoadManager extends ECS.Component {
             const newObj = buffEmitter(this.scene, specialEffectPrefab.block);
             this.scene.stage.addChild(newObj);
         })
-        //add checkpoint
-        const checkpoint = new ECS.Graphics();
-        checkpoint.beginFill(0xFFFFFF);
-        checkpoint.tint = 0x0000FF;
-        checkpoint.drawRect(0, 0, 20, this.scene.height);
-        checkpoint.name = 'CHEKPOINT';
-        checkpoint.addTag('CHECKPOINT');
-        checkpoint.endFill();
-        checkpoint.position.set(5000, 0);        
-        checkpoint.addComponent(new Shift(null));
-        checkpoint.addComponent(new ObstacleCollider(null));
-        checkpoint.addComponent(new GarbageRemoval(null));        
-        this.scene.stage.addChild(checkpoint);
-
-        const check2 = new ECS.Graphics();
-        check2.beginFill(0xFFFFFF);
-        check2.tint = 0x0000FF;
-        check2.drawRect(0, 0, 20, this.scene.height);
-        check2.name = 'CHEKPOINT';
-        check2.addTag('CHECKPOINT');
-        check2.endFill();
-        check2.position.set(7000, 0);
-        check2.addComponent(new Shift(null));
-        check2.addComponent(new ObstacleCollider(null));
-        check2.addComponent(new GarbageRemoval(null));
-        this.scene.stage.addChild(check2);
+        //add checkpoints
+        this.mapData.checkpoints.forEach(checkpointPrefab => {
+            const newCheck = checkpointEmitter(this.scene, checkpointPrefab.block);
+            this.scene.stage.addChild(newCheck);
+        })       
       
     }
 }

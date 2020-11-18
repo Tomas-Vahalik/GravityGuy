@@ -4,11 +4,13 @@ import * as ECS from '../libs/pixi-ecs';
 export class ObstacleCollider extends ECS.Component {
     inColision = false;
     onInit() {
-        this.subscribe(Messages.OBJECT_POSITION);
+        //this.subscribe(Messages.OBJECT_POSITION);
     }
     onUpdate(delta: number, absolute: number) {
+        
         var bounds = this.owner.getBounds();
-        this.sendMessage(Messages.OBJECT_POSITION, bounds);
+        if (bounds.left <= this.owner.scene.width && bounds.right >= 0)
+            this.sendMessage(Messages.OBJECT_POSITION, bounds);
     }
     onMessage(msg: ECS.Message) {
     }

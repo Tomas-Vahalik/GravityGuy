@@ -111,29 +111,22 @@ export class PlayerCollider extends ECS.Component {
                     //adapt player position
                     this.adaptPosition(otherBounds, dir);
                     //send message
-                    this.sendMessage(Messages.COLLISION, new CollisionDetails(dir, msg.component.owner));
-                
-                    
-                    //msg.component.owner.asGraphics().tint = 0xFF0000;                                
+                    this.sendMessage(Messages.COLLISION, new CollisionDetails(dir, msg.component.owner));                                                                                    
                 }
             }
             //check end of collision
             else {
                 //if i am in collision with this object
                 if (this.state.inCollisionWith.has(msg.gameObject)) {                 
-
-                    //msg.component.owner.asGraphics().tint = 0xFFFFFF;
                     //get direction
                     let dir = this.state.inCollisionWith.get(msg.gameObject);                   
                     //forget this object
                     this.state.inCollisionWith.delete(msg.gameObject);
+                    //if there is no other collision that way, send message
                     var directions: string[] = Array.from(this.state.inCollisionWith.values());
                     if (!directions.includes(dir)) {
                         this.sendMessage(Messages.COLLISION_END, new CollisionDetails(dir, msg.component.owner));                    
-                    }
-                    //send message                    
-                    
-                   
+                    }                 
                 }
             }
         }

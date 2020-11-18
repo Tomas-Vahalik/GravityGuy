@@ -11,7 +11,8 @@ export class PlayerMovement extends ECS.Component {
         canFlip: false,
         allowedUp: true,
         allowedDown: true,
-        running: true
+        running: true,
+        difficulty:0.6
     };
     private modifyState(obj) {
         this.state = {
@@ -182,7 +183,7 @@ export class PlayerMovement extends ECS.Component {
         const scrWidth = this.scene.app.screen.width;
         const scrHeight = this.scene.app.screen.height;
         const boundRect = this.owner.getBounds();
-        const diff = delta * 0.6;
+        const diff = delta * this.state.difficulty;
         let newDir = dir;
         //move player up or down
         switch (dir) {

@@ -55,7 +55,7 @@ export class Playground{
         //var SM = new SceneManager(this.engine.app.loader);
         this.engine.scene.addGlobalComponent(new SceneManager(null));
         this.engine.scene.addGlobalComponent(new LoadManager(this.engine.app.loader));
-        this.engine.scene.addGlobalComponent(new ECS.FuncComponent('time spawner')
+      /*  this.engine.scene.addGlobalComponent(new ECS.FuncComponent('time spawner')
             .setFixedFrequency(3)
             .doOnFixedUpdate((cmp, delta, absolute) => {
                 var newObj;
@@ -66,7 +66,7 @@ export class Playground{
                     newObj = buffEmitter(this.engine.scene, null);
                 }
                 this.engine.scene.stage.addChild(newObj);
-            }));
+            }));*/
        
     }
 }

@@ -3,7 +3,8 @@ import * as ECS from '../libs/pixi-ecs';
 
 export class Shift extends ECS.Component {
     state = {
-        running: true
+        running: true,
+        difficulty:0.5
     };
     private modifyState(obj) {
         this.state = {
@@ -34,7 +35,7 @@ export class Shift extends ECS.Component {
             return;
         var x = this.owner.position.x;
         var y = this.owner.position.y;
-        this.owner.position.set(x - 0.5 * delta, y);
+        this.owner.position.set(x - this.state.difficulty * delta, y);
         //var bounds = this.owner.getBounds();
     }
 }
