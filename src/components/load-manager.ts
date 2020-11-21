@@ -1,14 +1,14 @@
-import { Messages } from './playground';
-import { Map } from './base_elements/map';
-import * as ECS from '../libs/pixi-ecs';
-import { Maps } from './constants/enums/maps';
-import { Block } from './base_elements/block';
-import { Checkpoint } from './base_elements/checkpoint';
-import { SpecialEffect } from './base_elements/special-effect';
-import { Position } from './base_elements/position';
+import { Messages } from '../constants/enums/messeges';
+import { Map } from '../base_elements/map';
+import * as ECS from '../../libs/pixi-ecs';
+import { Maps } from '../constants/enums/maps';
+import { Block } from '../base_elements/block';
+import { Checkpoint } from '../base_elements/checkpoint';
+import { SpecialEffect } from '../base_elements/special-effect';
+import { Position } from '../base_elements/position';
 
-import BlockFactory from './block_factory/block-factory';
-import DirectionManager from './direction-manager';
+import BlockFactory from '../block_factory/block-factory';
+import DirectionManager from '../direction-manager';
 
 export class LoadManager extends ECS.Component {
   mapName: Maps;

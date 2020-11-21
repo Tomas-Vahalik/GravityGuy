@@ -1,5 +1,5 @@
-import { Messages } from './playground';
-import * as ECS from '../libs/pixi-ecs';
+import { Messages } from '../constants/enums/messeges';
+import * as ECS from '../../libs/pixi-ecs';
 
 export class Shift extends ECS.Component {
 	state = {

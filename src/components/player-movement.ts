@@ -1,9 +1,9 @@
-import { Messages } from './playground';
+import { Messages } from '../constants/enums/messeges';
 import { Shift } from './shift';
-import * as ECS from '../libs/pixi-ecs';
+import * as ECS from '../../libs/pixi-ecs';
 import { CollisionDetails } from './player-collider';
 import { PlayerBuff } from './player-buff';
-import { Direction } from './constants/enums/direction';
+import { Direction } from '../constants/enums/direction';
 
 export class PlayerMovement extends ECS.Component {
   state = {

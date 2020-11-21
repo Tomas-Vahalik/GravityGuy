@@ -1,39 +1,7 @@
 import * as ECS from '../libs/pixi-ecs/';
-import { KeyInputComponent } from '../libs/pixi-ecs/components/key-input-component';
-import { ObstacleCollider } from './obstacle-collider';
-import { GarbageRemoval } from './garbage-removal';
-import { Shift } from './shift';
 import { SceneManager } from './scene-manager';
 import { Block } from './base_elements/block';
-import { LoadManager } from './load-manager';
-
-export enum Messages {
-	OBJECT_POSITION = 'OBJECT_POSITION',
-	OBJECT_DESTROYED = 'OBJECT_DESTROYED',
-	COLLISION = 'COLLISION',
-	COLLISION_END = 'COLLISION_END',
-
-	COLLISION_TOP = 'COLLISION_TOP',
-	COLLISION_TOP_END = 'COLLISION_TOP_END',
-	COLLISION_BOT = 'COLLISION_BOT',
-	COLLISION_BOT_END = 'COLLISION_BOT_END',
-	COLLISION_LEFT = 'COLLISION_LEFT',
-	COLLISION_LEFT_END = 'COLLISION_LEFT_END',
-	COLLISION_RIGHT = 'COLLISION_RIGHT',
-	COLLISION_RIGHT_END = 'COLLISION_TOP_RIGHT',
-
-	FREEZE = 'FREEZE',
-	UNFREEZE = 'UNFREEZE',
-
-	PLAYER_RESET = 'PLAYER_RESET',
-	FLIP_GRAVITY = 'FLIP',
-
-	BUFF = 'BUFF',
-	LOAD_CHECKPOINT = 'LOAD_CHECKPOINT',
-	SAVE_CHECKPOINT = 'SAVE_CHECKPOINT',
-
-	PLAYER_DIRECTION = 'PLAYER_DIRECTION'
-}
+import { LoadManager } from './components/load-manager';
 
 export class Playground{
 	offsetY = 500;

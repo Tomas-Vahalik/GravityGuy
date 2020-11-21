@@ -1,8 +1,8 @@
 import * as ECS from '../../libs/pixi-ecs';
-import { GarbageRemoval } from '../garbage-removal';
+import { GarbageRemoval } from '../components/garbage-removal';
 import { Position } from '../base_elements/position';
-import { PlayerMovement } from '../player-movement';
-import { PlayerCollider } from '../player-collider';
+import { PlayerMovement } from '../components/player-movement';
+import { PlayerCollider } from '../components/player-collider';
 
 export default class ObstacleEmitter extends ECS.Graphics {
   constructor(spawnPosition: Position) {

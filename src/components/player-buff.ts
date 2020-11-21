@@ -1,6 +1,6 @@
-import { Messages } from './playground';
-import * as ECS from '../libs/pixi-ecs';
-import { Direction } from './constants/enums/direction';
+import { Messages } from '../constants/enums/messeges';
+import * as ECS from '../../libs/pixi-ecs';
+import { Direction } from '../constants/enums/direction';
 
 export class PlayerBuff extends ECS.Component {
   state = {

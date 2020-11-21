@@ -1,8 +1,8 @@
 import * as ECS from '../../libs/pixi-ecs';
 import { Block } from '../base_elements/block';
-import { GarbageRemoval } from '../garbage-removal';
-import { Shift } from '../shift';
-import { ObstacleCollider } from '../obstacle-collider';
+import { GarbageRemoval } from '../components/garbage-removal';
+import { Shift } from '../components/shift';
+import { ObstacleCollider } from '../components/obstacle-collider';
 
 export default class ObstacleEmitter extends ECS.Graphics {
   constructor(blockPrefab: Block) {
