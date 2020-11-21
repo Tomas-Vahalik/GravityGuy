@@ -5,7 +5,7 @@ import { GarbageRemoval } from './garbage-removal';
 import { Shift } from './shift';
 import { SceneManager } from './scene-manager';
 import { Block } from './base_elements/block';
-import { LoadManager, objectEmitter, buffEmitter } from './load-manager';
+import { LoadManager } from './load-manager';
 
 export enum Messages {
 	OBJECT_POSITION = 'OBJECT_POSITION',
@@ -34,13 +34,6 @@ export enum Messages {
 
 	PLAYER_DIRECTION = 'PLAYER_DIRECTION'
 }
-export enum Direction {
-	UP = 'UP',
-	DOWN = 'DOWN',
-	LEFT = 'LEFT',
-	RIGHT = 'RIGHT'
-}
-
 
 export class Playground{
 	offsetY = 500;
@@ -54,17 +47,5 @@ export class Playground{
 		//var SM = new SceneManager(this.engine.app.loader);
 		this.engine.scene.addGlobalComponent(new SceneManager(null));
 		this.engine.scene.addGlobalComponent(new LoadManager(this.engine.app.loader));
-		/*  this.engine.scene.addGlobalComponent(new ECS.FuncComponent('time spawner')
-            .setFixedFrequency(3)
-            .doOnFixedUpdate((cmp, delta, absolute) => {
-                var newObj;
-                if (Math.random() > 0.1) {
-                    newObj = objectEmitter(this.engine.scene, null);
-                }
-                else {
-                    newObj = buffEmitter(this.engine.scene, null);
-                }
-                this.engine.scene.stage.addChild(newObj);
-            }));*/
 	}
 }

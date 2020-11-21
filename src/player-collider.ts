@@ -1,6 +1,7 @@
 import { PlayerBuff } from './player-buff';
-import { Messages, Direction } from './playground';
+import { Messages } from './playground';
 import * as ECS from '../libs/pixi-ecs';
+import { Direction } from './enums/direction';
 export class CollisionDetails {
 	dir: Direction;
 	otherObject: ECS.Container;

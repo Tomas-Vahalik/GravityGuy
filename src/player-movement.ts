@@ -1,8 +1,9 @@
-import { Direction, Messages } from './playground';
+import { Messages } from './playground';
 import { Shift } from "./shift";
 import * as ECS from '../libs/pixi-ecs';
 import { CollisionDetails } from './player-collider';
 import { PlayerBuff } from './player-buff';
+import { Direction } from './enums/direction';
 
 export class PlayerMovement extends ECS.Component {
 	state = {
@@ -23,7 +24,7 @@ export class PlayerMovement extends ECS.Component {
 	handleObstacleCollisionEnter(dir:Direction) {
 		switch (dir) {
 			case Direction.UP:
-				//if 'flip' was pressed, flip gravity
+			;	//if 'flip' was pressed, flip gravity
 				if (this.state.flipPressed) {
 					this.modifyState({
 						dir: Direction.DOWN,
