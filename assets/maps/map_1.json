@@ -2,10 +2,10 @@
     "spawnpoint" : {
         "x": 300,
         "y": 50
-    },    
+    },
     "dir":"DOWN",
     "blocks": [
-        
+
         { "pos": { "x": 250, "y": 200 }, "width": 600, "height": 30 },
         { "pos": { "x": 900, "y": 300 }, "width": 400, "height": 30 },
         { "pos": { "x": 1350, "y": 400 }, "width": 400, "height": 30 },
@@ -15,9 +15,9 @@
         { "pos": { "x": 3650, "y": 200 }, "width": 400, "height": 30 },
         { "pos": { "x": 4100, "y": 100 }, "width": 400, "height": 30 },
         { "pos": { "x": 4550, "y": 0 }, "width": 800, "height": 30 },
-        
-        
-        
+
+
+
         { "pos": { "x": 5500, "y": 570 }, "width": 300, "height": 30 },
         { "pos": { "x": 6000, "y": 0 }, "width": 300, "height": 30 },
         { "pos": { "x": 6500, "y": 500 }, "width": 200, "height": 30 },
@@ -25,27 +25,27 @@
         { "pos": { "x": 7100, "y": 410 }, "width": 100, "height": 30 },
         { "pos": { "x": 7300, "y": 190 }, "width": 100, "height": 30 },
         { "pos": { "x": 7450, "y": 350 }, "width": 500, "height": 30 },
-        
-        
+
+
         { "pos": { "x": 8000, "y": 500 }, "width": 500, "height": 30 },
-        { "pos": { "x": 8470, "y": 350 }, "width": 30, "height": 150 },        
+        { "pos": { "x": 8470, "y": 350 }, "width": 30, "height": 150 },
         { "pos": { "x": 8470, "y": 0 }, "width": 30, "height": 150 },
         { "pos": { "x": 8500, "y": 0 }, "width": 500, "height": 30 },
-        
+
         { "pos": { "x": 8970, "y": 0 }, "width": 30, "height": 200 },
         { "pos": { "x": 8970, "y": 300 }, "width": 30, "height": 230 },
         { "pos": { "x": 9000, "y": 500 }, "width": 500, "height": 30 },
-        
-        { "pos": { "x": 9470, "y": 0 }, "width": 30, "height": 215 },        
+
+        { "pos": { "x": 9470, "y": 0 }, "width": 30, "height": 215 },
         { "pos": { "x": 9470, "y": 285 }, "width": 30, "height": 215 },
         { "pos": { "x": 9500, "y": 0 }, "width": 500, "height": 30 },
-        
-           
+
+
         { "pos": { "x": 9970, "y": 0 }, "width": 30, "height": 220 },
         { "pos": { "x": 9970, "y": 285 }, "width": 30, "height": 245 },
-        
-        
-        
+
+
+
         { "pos": { "x": 10000, "y": 500 }, "width": 2500, "height": 30 },
         { "pos": { "x": 10200, "y": 345 }, "width": 2300, "height": 30 },
         { "pos": { "x": 10300, "y": 450 }, "width": 50, "height": 50 },
@@ -58,62 +58,62 @@
         { "pos": { "x": 11700, "y": 450 }, "width": 50, "height": 50 },
         { "pos": { "x": 11900, "y": 375 }, "width": 50, "height": 50 },
         { "pos": { "x": 12100, "y": 450 }, "width": 50, "height": 50 },
-        
-        
-             
+
+
+
         { "pos": { "x": 12500, "y": 450 }, "width": 300, "height": 50 },
         { "pos": { "x": 12500, "y": 0 }, "width": 400, "height": 50 },
-        
+
         { "pos": { "x": 12800, "y": 400 }, "width": 300, "height": 50 },
         { "pos": { "x": 12900, "y": 50 }, "width": 200, "height": 50 },
-        
+
         { "pos": { "x": 13100, "y": 350 }, "width": 300, "height": 50 },
         { "pos": { "x": 13100, "y": 100 }, "width": 300, "height": 50 },
-        
+
         { "pos": { "x": 13400, "y": 300 }, "width": 300, "height": 50 },
         { "pos": { "x": 13400, "y": 150 }, "width": 900, "height": 50 },
-        
-        { "pos": { "x": 13700, "y": 250 }, "width": 300, "height": 50 }, 
-               
-        
+
+        { "pos": { "x": 13700, "y": 250 }, "width": 300, "height": 50 },
+
+
         { "pos": { "x": 14000, "y": 300 }, "width": 300, "height": 50 },
-               
-        
+
+
         { "pos": { "x": 14300, "y": 350 }, "width": 300, "height": 50 },
         { "pos": { "x": 14300, "y": 100 }, "width": 300, "height": 50 },
-        
+
         { "pos": { "x": 14600, "y": 400 }, "width": 300, "height": 50 },
         { "pos": { "x": 14600, "y": 100 }, "width": 300, "height": 50 },
-        
+
         { "pos": { "x": 14900, "y": 450 }, "width": 300, "height": 50 },
         { "pos": { "x": 14900, "y": 50 }, "width": 300, "height": 50 },
-        
+
         { "pos": { "x": 15200, "y": 500 }, "width": 800, "height": 30 },
         { "pos": { "x": 15200, "y": 0 }, "width": 300, "height": 50 },
-        
-        
-        
+
+
+
         { "pos": { "x": 16000, "y": 300 }, "width": 50, "height": 50 },
         { "pos": { "x": 16050, "y": 500 }, "width": 500, "height": 30 },
-        
+
         { "pos": { "x": 16550, "y": 200 }, "width": 50, "height": 50 },
         { "pos": { "x": 16600, "y": 500 }, "width": 500, "height": 30 },
-        
+
         { "pos": { "x": 17100, "y": 100 }, "width": 50, "height": 50 },
         { "pos": { "x": 17150, "y": 500 }, "width": 600, "height": 30 },
-        
+
         { "pos": { "x": 17750, "y": 0 }, "width": 50, "height": 50 },
         { "pos": { "x": 17800, "y": 500 }, "width": 500, "height": 30 },
-        
-        
-        
-               
+
+
+
+
         { "pos": { "x": 18440, "y": 100 }, "width": 100, "height": 30 },
         { "pos": { "x": 18700, "y": 400 }, "width": 100, "height": 30 },
         { "pos": { "x": 18830, "y": 450 }, "width": 100, "height": 30 },
         { "pos": { "x": 19200, "y": 50 }, "width": 100, "height": 30 },
         { "pos": { "x": 19400, "y": 300 }, "width": 200, "height": 30 },
-        
+
         { "pos": { "x": 19650, "y": 350 }, "width": 50, "height": 50 },
         { "pos": { "x": 19720, "y": 400 }, "width": 50, "height": 50 },
         { "pos": { "x": 19790, "y": 500 }, "width": 150, "height": 30 },
@@ -123,12 +123,7 @@
         { "pos": { "x": 20110, "y": 250 }, "width": 50, "height": 50 },
         { "pos": { "x": 20180, "y": 200 }, "width": 50, "height": 50 },
         { "pos": { "x": 20250, "y": 150 }, "width": 200, "height": 30 }
-        
-        
-        
-       
-        
-    ],    
+    ],
     "blocks_1": [
         { "pos": { "x": 0, "y": 570 }, "width": 820, "height": 30 },
         { "pos": { "x": 800, "y": 540 }, "width": 760, "height": 30 },
@@ -143,11 +138,8 @@
         { "pos": { "x": 1070, "y": 270 }, "width": 220, "height": 30 },
         { "pos": { "x": 1100, "y": 240 }, "width": 160, "height": 30 },
         { "pos": { "x": 1130, "y": 210 }, "width": 100, "height": 30 },
-        
         { "pos": { "x": 1130, "y": 10 }, "width": 100, "height": 30 },
         { "pos": { "x": 1400, "y": 300 }, "width": 500, "height": 30 }
-                 
-        
     ],
     "specialEffects": [
         { "type": 1, "block": { "pos": { "x": 350, "y": 500 }, "width": 10, "height": 10 } },
@@ -162,7 +154,5 @@
         {"block": { "pos": { "x": 12500, "y": 0}, "width": 20, "height": 600 }},
         {"block": { "pos": { "x": 15500, "y": 300}, "width": 20, "height": 600 }},
         {"block": { "pos": { "x": 18000, "y": 300}, "width": 20, "height": 200 }}
-        
-        
     ]
 }

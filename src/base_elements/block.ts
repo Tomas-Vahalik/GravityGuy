@@ -1,4 +1,4 @@
-import { Position } from "./position";
+import { Position } from './position';
 
 export class Block {
 	pos: Position;
