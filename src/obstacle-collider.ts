@@ -8,8 +8,9 @@ export class ObstacleCollider extends ECS.Component {
 	}
 	onUpdate(delta: number, absolute: number) {
 		let bounds = this.owner.getBounds();
-		if (bounds.left <= this.owner.scene.width && bounds.right >= 0)
+		if (bounds.left <= this.owner.scene.width && bounds.right >= 0) {
 			this.sendMessage(Messages.OBJECT_POSITION, bounds);
+		}
 	}
 	onMessage(msg: ECS.Message) {
 	}

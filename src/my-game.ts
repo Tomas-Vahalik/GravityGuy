@@ -1,8 +1,8 @@
-import * as ECS from "../libs/pixi-ecs";
-import * as PIXI from "pixi.js";
-import { Maps } from "./constants";
-import { Playground } from "./playground";
-import BlockFactory from "./block_factory/block-factory";
+import * as ECS from '../libs/pixi-ecs';
+import * as PIXI from 'pixi.js';
+import { Maps } from './constants/enums/maps';
+import { Playground } from './playground';
+import BlockFactory from './block_factory/block-factory';
 
 // TODO rename your game
 class MyGame {
@@ -10,7 +10,7 @@ class MyGame {
 
   constructor() {
 	this.engine = new ECS.Engine();
-	let canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+	let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
 
 	// init the game loop
 	this.engine.init(canvas, {
@@ -31,8 +31,8 @@ class MyGame {
 
 	this.engine.app.loader
 		.reset()
-		.add(Maps.MAP_1, "../assets/maps/map_1.json")
-		.add("Save", "../assets/save/save1.json")
+		.add(Maps.MAP_1, '../assets/maps/map_1.json')
+		.add('Save', '../assets/save/save1.json')
 		.load(() => this.onAssetsLoaded());
   }
 

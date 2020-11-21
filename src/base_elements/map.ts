@@ -2,7 +2,7 @@ import { Block } from './block';
 import { SpecialEffect } from './special-effect';
 import { Position } from './position';
 import { Checkpoint } from './checkpoint';
-import { Direction } from '../enums/direction';
+import { Direction } from '../constants/enums/direction';
 
 
 export class Map {

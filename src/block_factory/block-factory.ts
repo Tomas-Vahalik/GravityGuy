@@ -1,10 +1,10 @@
-import ObstacleEmitter from "./obstacle-emitter";
-import BuffEmitter from "./buff-emitter";
-import Player from "./player";
-import { Block } from "../base_elements/block";
-import CheckpointEmitter from "./checkpoint-emitter";
-import { Position } from "../base_elements/position";
-import * as ECS from "../../libs/pixi-ecs";
+import ObstacleEmitter from './obstacle-emitter';
+import BuffEmitter from './buff-emitter';
+import Player from './player';
+import { Block } from '../base_elements/block';
+import CheckpointEmitter from './checkpoint-emitter';
+import { Position } from '../base_elements/position';
+import * as ECS from '../../libs/pixi-ecs';
 
 export default class BlockFactory {
   static _instance: BlockFactory;

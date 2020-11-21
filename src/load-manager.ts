@@ -1,7 +1,7 @@
 import { Messages } from './playground';
 import { Map } from './base_elements/map';
 import * as ECS from '../libs/pixi-ecs';
-import { Maps } from './constants';
+import { Maps } from './constants/enums/maps';
 import { Block } from './base_elements/block';
 import { Checkpoint } from './base_elements/checkpoint';
 import { SpecialEffect } from './base_elements/special-effect';

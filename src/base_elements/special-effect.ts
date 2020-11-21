@@ -1,4 +1,4 @@
-import { Block } from "./block";
+import { Block } from './block';
 
 export enum SpecialEffectType {
 	BOOST = 1,
@@ -8,9 +8,9 @@ export enum SpecialEffectType {
 
 export class SpecialEffect {
 	type: SpecialEffectType;
-    block: Block;
-    constructor(type: SpecialEffectType, block:Block) {
-        this.type = type;
-        this.block = block;
-    }
+	block: Block;
+	constructor(type: SpecialEffectType, block:Block) {
+		this.type = type;
+		this.block = block;
+	}
 }

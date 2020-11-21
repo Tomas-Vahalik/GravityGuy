@@ -1,4 +1,4 @@
-import { Direction } from './enums/direction';
+import { Direction } from './constants/enums/direction';
 
 export default class DirectionManager {
   private dir: Direction;
