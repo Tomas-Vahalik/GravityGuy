@@ -3,11 +3,13 @@ import { SpecialEffect } from './special-effect';
 import { Position } from './position';
 import { Checkpoint } from './checkpoint';
 import { Direction } from '../constants/enums/direction';
+import { Maps } from '../constants/enums/maps';
 
 
 export class Map {
 	spawnpoint: Position;
 	blocks: Block[];
+	nextMap: Maps;
 	specialEffects: SpecialEffect[];
 	checkpoints: Checkpoint[];
 	dir: Direction;

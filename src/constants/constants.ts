@@ -1,1 +1,1 @@
-export const CHECKPOINT: string = "Save";
+export const CHECKPOINT: string = 'Save';

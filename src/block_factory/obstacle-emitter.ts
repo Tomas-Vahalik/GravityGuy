@@ -7,7 +7,6 @@ import { ObstacleCollider } from '../components/obstacle-collider';
 export default class ObstacleEmitter extends ECS.Graphics {
   constructor(blockPrefab: Block) {
 	super();
-
 	this.beginFill(0xffffff);
 	this.drawRect(0, 0, blockPrefab.width, blockPrefab.height);
 
