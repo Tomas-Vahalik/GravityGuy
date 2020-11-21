@@ -11,17 +11,9 @@ export class Shift extends ECS.Component {
 		this.subscribe(Messages.UNFREEZE);
 	}
 	onMessage(msg: ECS.Message) {
-		if (msg.action === Messages.FREEZE) {
-			console.log('freeze');
-			this.modifyState({
-				running: false
-			});
-		}
-		if (msg.action === Messages.UNFREEZE) {
-			this.modifyState({
-				running: true
-			});
-		}
+		this.modifyState({
+			running: msg.action === Messages.UNFREEZE
+		});
 	}
 	onUpdate(delta: number, absolute: number) {
 		//move object left
