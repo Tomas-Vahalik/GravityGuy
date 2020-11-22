@@ -68,6 +68,7 @@ export class PlayerMovement extends ECS.Component {
 	}
   }
   onUpdate(delta: number, absolute: number) {
+      if (delta > 20) delta = 20;
 	if (this.state.running == false) { return; }
 	const dir = this.state.dir;
 	const pos = this.owner.position;

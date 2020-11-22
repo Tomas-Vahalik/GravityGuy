@@ -15,7 +15,8 @@ export class Shift extends ECS.Component {
 			running: msg.action === Messages.UNFREEZE
 		});
 	}
-	onUpdate(delta: number, absolute: number) {
+    onUpdate(delta: number, absolute: number) {
+        if (delta > 20) delta = 20;
 		//move object left
 		if (this.state.running == false) {
 			return;

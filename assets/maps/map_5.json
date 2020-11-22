@@ -1,0 +1,51 @@
+{
+    "spawnpoint" : {
+        "x": 300,
+        "y": 50
+    },
+    "dir":"DOWN",
+    "nextMap":"Map_6",
+    "blocks": [     
+
+        { "pos": { "x": 200, "y": 350 }, "width": 300, "height": 50 },
+        { "pos": { "x": 200, "y": 100 }, "width": 300, "height": 50 },
+
+        { "pos": { "x": 500, "y": 300 }, "width": 300, "height": 50 },
+        { "pos": { "x": 500, "y": 150 }, "width": 900, "height": 50 },
+
+        { "pos": { "x": 800, "y": 250 }, "width": 300, "height": 50 },
+
+
+        { "pos": { "x": 1100, "y": 300 }, "width": 300, "height": 50 },
+
+
+        { "pos": { "x": 1400, "y": 350 }, "width": 300, "height": 50 },
+        { "pos": { "x": 1400, "y": 100 }, "width": 300, "height": 50 },
+
+        { "pos": { "x": 1700, "y": 400 }, "width": 300, "height": 50 },
+        { "pos": { "x": 1700, "y": 100 }, "width": 300, "height": 50 },
+
+        { "pos": { "x": 2000, "y": 450 }, "width": 300, "height": 50 },
+        { "pos": { "x": 2000, "y": 50 }, "width": 300, "height": 50 },
+
+        { "pos": { "x": 2300, "y": 500 }, "width": 800, "height": 30 },
+        { "pos": { "x": 2300, "y": 0 }, "width": 300, "height": 50 },
+
+
+
+        { "pos": { "x": 3100, "y": 300 }, "width": 50, "height": 50 },
+        { "pos": { "x": 3150, "y": 500 }, "width": 500, "height": 30 }
+
+        
+    ],
+    "specialEffects": [        
+        { "type": 1, "block": { "pos": { "x": 900, "y": 200 }, "width": 10, "height": 10 } },
+        { "type": 1, "block": { "pos": { "x": 2450, "y": 490 }, "width": 10, "height": 10 } }
+        
+    ],
+    "checkpoints": [       
+        
+        {"block": { "pos": { "x": 2600, "y": 300}, "width": 20, "height": 600 }}
+        
+    ]
+}

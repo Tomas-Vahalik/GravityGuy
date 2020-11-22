@@ -32,7 +32,13 @@ class MyGame {
 	this.engine.app.loader
 		.reset()
 		.add(Maps.MAP_1, '../assets/maps/map_1.json')
-		.add(Maps.MAP_2, '../assets/maps/map_2.json')
+        .add(Maps.MAP_2, '../assets/maps/map_2.json')
+        .add(Maps.MAP_3, '../assets/maps/map_3.json')
+        .add(Maps.MAP_4, '../assets/maps/map_4.json')
+        .add(Maps.MAP_5, '../assets/maps/map_5.json')
+        .add(Maps.MAP_6, '../assets/maps/map_6.json')
+        .add(Maps.MAP_7, '../assets/maps/map_7.json')
+        .add(Maps.MAP_8, '../assets/maps/map_8.json')
 		.add('Save', '../assets/save/save1.json')
 		.load(() => this.onAssetsLoaded());
   }

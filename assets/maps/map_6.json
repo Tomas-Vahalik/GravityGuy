@@ -1,0 +1,29 @@
+{
+    "spawnpoint" : {
+        "x": 300,
+        "y": 50
+    },
+    "dir":"DOWN",
+    "nextMap":"Map_7",
+    "blocks": [    
+
+
+        { "pos": { "x": 500, "y": 200 }, "width": 50, "height": 50 },
+        { "pos": { "x": 550, "y": 500 }, "width": 500, "height": 30 },
+
+        { "pos": { "x": 1050, "y": 100 }, "width": 50, "height": 50 },
+        { "pos": { "x": 1100, "y": 500 }, "width": 600, "height": 30 },
+
+        { "pos": { "x": 1700, "y": 0 }, "width": 50, "height": 50 },
+        { "pos": { "x": 1750, "y": 500 }, "width": 500, "height": 30 }
+
+    ],
+    "specialEffects": [       
+    
+        
+    ],
+    "checkpoints": [       
+        
+        {"block": { "pos": { "x": 1950, "y": 300}, "width": 20, "height": 200 }}
+    ]
+}
