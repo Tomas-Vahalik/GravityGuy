@@ -15,7 +15,7 @@
         { "pos": { "x": 2650, "y": 150 }, "width": 600, "height": 30 }
     ],
     "specialEffects": [       
-    
+      { "type": 2, "block": { "pos": { "x": 400, "y": 430 }, "width": 20, "height": 20 } }
         
     ],
     "checkpoints": [       

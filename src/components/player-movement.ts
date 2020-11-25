@@ -4,6 +4,7 @@ import * as ECS from '../../libs/pixi-ecs';
 import { CollisionDetails } from './player-collider';
 import { PlayerBuff } from './player-buff';
 import { Direction } from '../constants/enums/direction';
+import { SlowMotion } from './slow-motion';
 
 export class PlayerMovement extends ECS.Component {
   state = {
@@ -13,7 +14,7 @@ export class PlayerMovement extends ECS.Component {
 	allowedUp: true,
 	allowedDown: true,
 	running: true,
-	difficulty: 0.6,
+	speed: 0.6,
   };
 
   onInit() {
@@ -24,28 +25,31 @@ export class PlayerMovement extends ECS.Component {
 	this.subscribe(Messages.UNFREEZE);
 	this.subscribe(Messages.FLIP_GRAVITY);
 
-	this.subscribe(Messages.PLAYER_DIRECTION);
+    this.subscribe(Messages.PLAYER_DIRECTION);
+
+    this.subscribe(Messages.SLOW_MOTION_START);
+    this.subscribe(Messages.SLOW_MOTION_END);
   }
   onMessage(msg: ECS.Message) {
 	if (msg.action == Messages.COLLISION) {
 		this.handleCollisionEnter(msg.data);
 	}
-	if (msg.action == Messages.COLLISION_END) {
+	else if (msg.action == Messages.COLLISION_END) {
 		this.handleObstacleCollisionEnd(msg.data.dir);
 	}
 
 	//---------------------------------------------------------------------------
-	if (msg.action === Messages.FREEZE) {
+	else if (msg.action === Messages.FREEZE) {
 		this.modifyState({
 		running: false,
 		});
 	}
-	if (msg.action === Messages.UNFREEZE) {
+	else if (msg.action === Messages.UNFREEZE) {
 		this.modifyState({
 		running: true,
 		});
 	}
-	if (msg.action === Messages.FLIP_GRAVITY) {
+	else if (msg.action === Messages.FLIP_GRAVITY) {
 		//if the player is running on surface, flip gravity
 		if (this.state.canFlip) {
 		let newDir: Direction;
@@ -61,11 +65,22 @@ export class PlayerMovement extends ECS.Component {
 		});
 		}
 	}
-	if (msg.action === Messages.PLAYER_DIRECTION) {
+	else if (msg.action === Messages.PLAYER_DIRECTION) {
 		this.modifyState({
 		dir: msg.data,
 		});
-	}
+      }
+    else if (msg.action == Messages.SLOW_MOTION_START) {
+        this.modifyState({
+            speed: 0.3,
+        });
+    }
+    else if (msg.action == Messages.SLOW_MOTION_END) {
+        this.modifyState({
+            speed: 0.6,
+        });
+    }
+
   }
   onUpdate(delta: number, absolute: number) {
       if (delta > 20) delta = 20;
@@ -75,7 +90,7 @@ export class PlayerMovement extends ECS.Component {
 	const scrWidth = this.scene.app.screen.width;
 	const scrHeight = this.scene.app.screen.height;
 	const boundRect = this.owner.getBounds();
-	const diff = delta * this.state.difficulty;
+	const diff = delta * this.state.speed;
 	let newDir = dir;
 	//move player up or down
 	switch (dir) {
@@ -166,17 +181,21 @@ export class PlayerMovement extends ECS.Component {
   handleCollisionEnter(data: CollisionDetails) {
 	switch (data.otherObject.tags.values().next().value) {
 		case 'BUFF':
-		this.owner.addComponent(new PlayerBuff(null));
-		this.scene.stage.removeChild(data.otherObject);
-		this.owner.asGraphics().tint = 0x00ffff;
-		break;
+		    this.owner.addComponent(new PlayerBuff(null));
+		    this.scene.stage.removeChild(data.otherObject);
+		    this.owner.asGraphics().tint = 0x00ffff;
+        break;
+        case 'SLOW':
+            this.owner.addComponent(new SlowMotion(null));
+            this.scene.stage.removeChild(data.otherObject);
+        break;
 
 		case 'CHECKPOINT':
-		this.sendMessage(Messages.SAVE_CHECKPOINT);
-		this.scene.stage.removeChild(data.otherObject);
+		    this.sendMessage(Messages.SAVE_CHECKPOINT);
+		    this.scene.stage.removeChild(data.otherObject);
 		break;
 		case 'OBJECT':
-		this.handleObstacleCollisionEnter(data.dir);
+		    this.handleObstacleCollisionEnter(data.dir);
 		break;
 	}
   }

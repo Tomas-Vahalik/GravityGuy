@@ -31,7 +31,7 @@ export class LoadManager extends ECS.Component {
 	);
 
 	this.gameScene = new Map();
-	this.loadMap(Maps.MAP_1, true);
+	this.loadMap(Maps.MAP_3, true);
 	this.loadScene();
   }
   onMessage(msg: ECS.Message) {
@@ -61,7 +61,15 @@ export class LoadManager extends ECS.Component {
 					ConvertorHelper.convertGoToBlock(gameObject)
 					)
 				);
-				break;
+                break;
+                case 'SLOW':
+                    this.gameScene.specialEffects.push(
+                        new SpecialEffect(
+                            2,
+                            ConvertorHelper.convertGoToBlock(gameObject)
+                        )
+                    );
+                    break;
 			}
 		}
 		this.loadMap(this.mapData.nextMap, false);
@@ -84,8 +92,8 @@ export class LoadManager extends ECS.Component {
 			this.gameScene.blocks[0].pos.x
 		);
 	}
-
-	this.mapData.blocks.forEach(x => {x.pos.x += maxX; this.gameScene.blocks.push(x)});
+    console.log(maxX);
+    this.mapData.blocks.forEach(x => { x.pos.x += maxX; console.log(x.pos.x); this.gameScene.blocks.push(x)});
 	this.mapData.specialEffects.forEach(x => {x.block.pos.x += maxX; this.gameScene.specialEffects.push(x)});
 	this.mapData.checkpoints.forEach(x => {x.block.pos.x += maxX; this.gameScene.checkpoints.push(x)});
 
@@ -115,14 +123,14 @@ export class LoadManager extends ECS.Component {
 	//add buffs
 	this.gameScene.specialEffects.forEach((specialEffectPrefab) => {
 		const newObj = BlockFactory.getInstance().createBuff(
-		specialEffectPrefab.block
+		specialEffectPrefab
 		);
 		this.scene.stage.addChild(newObj);
 	});
 	//add checkpoints
 	this.gameScene.checkpoints.forEach((checkpointPrefab) => {
 		const newCheck = BlockFactory.getInstance().createCheckPoint(
-		checkpointPrefab.block
+		checkpointPrefab
 		);
 		this.scene.stage.addChild(newCheck);
 	});

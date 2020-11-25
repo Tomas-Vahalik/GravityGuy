@@ -5,6 +5,8 @@ import { Block } from '../base_elements/block';
 import CheckpointEmitter from './checkpoint-emitter';
 import { Position } from '../base_elements/position';
 import * as ECS from '../../libs/pixi-ecs';
+import { SpecialEffect } from '../base_elements/special-effect';
+import { Checkpoint } from '../base_elements/checkpoint';
 
 export default class BlockFactory {
   static _instance: BlockFactory;
@@ -22,10 +24,10 @@ export default class BlockFactory {
   createObstacle(prefab: Block): ECS.Graphics {
 	return new ObstacleEmitter(prefab);
   }
-  createBuff(prefab: Block): ECS.Graphics {
+  createBuff(prefab: SpecialEffect): ECS.Graphics {
 	return new BuffEmitter(prefab);
   }
-  createCheckPoint(prefab: Block): ECS.Graphics {
+  createCheckPoint(prefab: Checkpoint): ECS.Graphics {
 	return new CheckpointEmitter(prefab);
   }
   createPlayer(spawnPoint: Position): ECS.Graphics {
