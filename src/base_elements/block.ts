@@ -9,4 +9,8 @@ export class Block {
 		this.width = w;
 		this.height = h;
 	}
+	copy = () => {
+		let newBlock = new Block(this.pos.x, this.pos.y, this.width, this.height);
+		return newBlock;
+	}
 }

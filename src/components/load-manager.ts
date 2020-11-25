@@ -61,15 +61,15 @@ export class LoadManager extends ECS.Component {
 					ConvertorHelper.convertGoToBlock(gameObject)
 					)
 				);
-                break;
-                case 'SLOW':
-                    this.gameScene.specialEffects.push(
-                        new SpecialEffect(
-                            2,
-                            ConvertorHelper.convertGoToBlock(gameObject)
-                        )
-                    );
-                    break;
+				break;
+				case 'SLOW':
+					this.gameScene.specialEffects.push(
+						new SpecialEffect(
+							2,
+							ConvertorHelper.convertGoToBlock(gameObject)
+						)
+					);
+					break;
 			}
 		}
 		this.loadMap(this.mapData.nextMap, false);
@@ -92,16 +92,18 @@ export class LoadManager extends ECS.Component {
 			this.gameScene.blocks[0].pos.x
 		);
 	}
-    console.log(maxX);
-    this.mapData.blocks.forEach(x => { x.pos.x += maxX; console.log(x.pos.x); this.gameScene.blocks.push(x)});
-	this.mapData.specialEffects.forEach(x => {x.block.pos.x += maxX; this.gameScene.specialEffects.push(x)});
-	this.mapData.checkpoints.forEach(x => {x.block.pos.x += maxX; this.gameScene.checkpoints.push(x)});
+
+	let blocks = this.mapData.blocks.map(x => new Block(x.pos.x, x.pos.y, x.width, x.height));
+	blocks.forEach(x => { x.pos.x += maxX; console.log(x.pos.x); this.gameScene.blocks.push(x)});
+	let specialEffects = this.mapData.specialEffects.map(x => new SpecialEffect(x.type, new Block(x.block.pos.x, x.block.pos.y, x.block.width, x.block.height)));
+	specialEffects.forEach(x => {x.block.pos.x += maxX; this.gameScene.specialEffects.push(x)});
+	let checkpoints = this.mapData.checkpoints.map(x => new Checkpoint(new Block(x.block.pos.x,x.block.pos.y,x.block.width,x.block.height)));
+	checkpoints.forEach(x => {x.block.pos.x += maxX; this.gameScene.checkpoints.push(x)});
 
 	if(isFirstMap) {
 		this.gameScene.spawnpoint = this.mapData.spawnpoint;
 		this.gameScene.dir = this.mapData.dir;
 	}
-	console.log(this.mapData.nextMap);
   }
 
   loadScene() {

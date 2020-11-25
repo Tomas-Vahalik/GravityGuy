@@ -13,4 +13,8 @@ export class SpecialEffect {
 		this.type = type;
 		this.block = block;
 	}
+
+	copy = () => {
+		return new SpecialEffect(this.type, this.block.copy());
+	}
 }

@@ -7,4 +7,8 @@ export class Checkpoint {
 	constructor(block: Block) {
 		this.block = block;
 	}
+
+	copy = () => {
+		return new Checkpoint(this.block.copy());
+	}
 }
