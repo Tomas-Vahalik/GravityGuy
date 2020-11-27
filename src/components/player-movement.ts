@@ -25,31 +25,25 @@ export class PlayerMovement extends ECS.Component {
 	this.subscribe(Messages.UNFREEZE);
 	this.subscribe(Messages.FLIP_GRAVITY);
 
-    this.subscribe(Messages.PLAYER_DIRECTION);
+	this.subscribe(Messages.PLAYER_DIRECTION);
 
-    this.subscribe(Messages.SLOW_MOTION_START);
-    this.subscribe(Messages.SLOW_MOTION_END);
+	this.subscribe(Messages.SLOW_MOTION_START);
+	this.subscribe(Messages.SLOW_MOTION_END);
   }
   onMessage(msg: ECS.Message) {
 	if (msg.action == Messages.COLLISION) {
 		this.handleCollisionEnter(msg.data);
-	}
-	else if (msg.action == Messages.COLLISION_END) {
+	} else if (msg.action == Messages.COLLISION_END) {
 		this.handleObstacleCollisionEnd(msg.data.dir);
-	}
-
-	//---------------------------------------------------------------------------
-	else if (msg.action === Messages.FREEZE) {
+	} else if (msg.action === Messages.FREEZE) {
 		this.modifyState({
 		running: false,
 		});
-	}
-	else if (msg.action === Messages.UNFREEZE) {
+	} else if (msg.action === Messages.UNFREEZE) {
 		this.modifyState({
 		running: true,
 		});
-	}
-	else if (msg.action === Messages.FLIP_GRAVITY) {
+	} else if (msg.action === Messages.FLIP_GRAVITY) {
 		//if the player is running on surface, flip gravity
 		if (this.state.canFlip) {
 		let newDir: Direction;
@@ -58,41 +52,38 @@ export class PlayerMovement extends ECS.Component {
 		this.modifyState({
 			dir: newDir,
 			flipPressed: false,
-        });
-        this.sendMessage(Messages.FLIP_IMAGE);
-        //else remember to flip on next surface
+		});
+		this.sendMessage(Messages.FLIP_IMAGE);
+		//else remember to flip on next surface
 		} else {
 		this.modifyState({
 			flipPressed: true,
 		});
 		}
-	}
-	else if (msg.action === Messages.PLAYER_DIRECTION) {
+	} else if (msg.action === Messages.PLAYER_DIRECTION) {
 		this.modifyState({
 		dir: msg.data,
 		});
-      }
-    else if (msg.action == Messages.SLOW_MOTION_START) {
-        this.modifyState({
-            speed: 0.3,
-        });
-    }
-    else if (msg.action == Messages.SLOW_MOTION_END) {
-        this.modifyState({
-            speed: 0.6,
-        });
-    }
+		} else if (msg.action == Messages.SLOW_MOTION_START) {
+		this.modifyState({
+			speed: 0.3,
+		});
+	} else if (msg.action == Messages.SLOW_MOTION_END) {
+		this.modifyState({
+			speed: 0.6,
+		});
+	}
 
   }
   onUpdate(delta: number, absolute: number) {
-      if (delta > 20) delta = 20;
+		if (delta > 20) { delta = 20; }
 	if (this.state.running == false) { return; }
 	const dir = this.state.dir;
 	const pos = this.owner.position;
 	const scrWidth = this.scene.app.screen.width;
 	const scrHeight = this.scene.app.screen.height;
-    const boundRect = this.owner.getBounds();
-    
+	const boundRect = this.owner.getBounds();
+
 	const diff = delta * this.state.speed;
 	let newDir = dir;
 	//move player up or down
@@ -114,8 +105,8 @@ export class PlayerMovement extends ECS.Component {
 				dir: Direction.DOWN,
 				flipPressed: false,
 				canFlip: false,
-                });
-                this.sendMessage(Messages.FLIP_IMAGE);
+				});
+				this.sendMessage(Messages.FLIP_IMAGE);
 			} else {
 				this.modifyState({
 				allowedUp: false,
@@ -130,8 +121,8 @@ export class PlayerMovement extends ECS.Component {
 				dir: Direction.UP,
 				flipPressed: false,
 				canFlip: false,
-                });
-                this.sendMessage(Messages.FLIP_IMAGE);
+				});
+				this.sendMessage(Messages.FLIP_IMAGE);
 			} else {
 				this.modifyState({
 				allowedDown: false,
@@ -189,11 +180,11 @@ export class PlayerMovement extends ECS.Component {
 		    this.owner.addComponent(new PlayerBuff(null));
 		    this.scene.stage.removeChild(data.otherObject);
 		    //this.owner.asGraphics().tint = 0x00ffff;
-        break;
-        case 'SLOW':
-            this.owner.addComponent(new SlowMotion(null));
-            this.scene.stage.removeChild(data.otherObject);
-        break;
+		break;
+		case 'SLOW':
+			this.owner.addComponent(new SlowMotion(null));
+			this.scene.stage.removeChild(data.otherObject);
+		break;
 
 		case 'CHECKPOINT':
 		    this.sendMessage(Messages.SAVE_CHECKPOINT);

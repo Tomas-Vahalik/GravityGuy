@@ -7,7 +7,7 @@ import BlockFactory from './block_factory/block-factory';
 // TODO rename your game
 class MyGame {
   engine: ECS.Engine;
-  
+
   constructor() {
 	this.engine = new ECS.Engine();
 	let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
@@ -29,28 +29,28 @@ class MyGame {
 		debugEnabled: false, // debugging window
 	});
 
-    this.engine.app.loader
-        .reset()
-        .add(Maps.MAP_1, '../assets/maps/map_1.json')
-        .add(Maps.MAP_2, '../assets/maps/map_2.json')
-        .add(Maps.MAP_3, '../assets/maps/map_3.json')
-        .add(Maps.MAP_4, '../assets/maps/map_4.json')
-        .add(Maps.MAP_5, '../assets/maps/map_5.json')
-        .add(Maps.MAP_6, '../assets/maps/map_6.json')
-        .add(Maps.MAP_7, '../assets/maps/map_7.json')
-        .add(Maps.MAP_8, '../assets/maps/map_8.json')
-        .add('Save', '../assets/save/save1.json')
-        .add('spritesheet', '../assets/graphics/runner.png')
-        .add('background','../assets/graphics/background.png')
+	this.engine.app.loader
+		.reset()
+		.add(Maps.MAP_1, '../assets/maps/map_1.json')
+		.add(Maps.MAP_2, '../assets/maps/map_2.json')
+		.add(Maps.MAP_3, '../assets/maps/map_3.json')
+		.add(Maps.MAP_4, '../assets/maps/map_4.json')
+		.add(Maps.MAP_5, '../assets/maps/map_5.json')
+		.add(Maps.MAP_6, '../assets/maps/map_6.json')
+		.add(Maps.MAP_7, '../assets/maps/map_7.json')
+		.add(Maps.MAP_8, '../assets/maps/map_8.json')
+		.add('Save', '../assets/save/save1.json')
+		.add('spritesheet', '../assets/graphics/runner.png')
+		.add('background','../assets/graphics/background.png')
 		.load(() => this.onAssetsLoaded());
   }
 
   onAssetsLoaded() {
-   
-      this.engine.scene.stage.sortableChildren = true;
-      
+
+		this.engine.scene.stage.sortableChildren = true;
+
 	new BlockFactory();
-    new Playground(this.engine);
+	new Playground(this.engine);
 
 	// init the scene and run your game
 	/*let scene = this.engine.scene;

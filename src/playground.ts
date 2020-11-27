@@ -3,14 +3,11 @@ import { SceneManager } from './scene-manager';
 import { Block } from './base_elements/block';
 import { LoadManager } from './components/load-manager';
 
-export class Playground{
+export class Playground {
 	offsetY = 500;
 	blocks: Block[] = [];
 	loadBlock: number;
-    engine: ECS.Engine;
-
-    
-    
+	engine: ECS.Engine;
 
 	constructor(engine: ECS.Engine) {
 		this.engine = engine;
