@@ -58,7 +58,9 @@ export class PlayerMovement extends ECS.Component {
 		this.modifyState({
 			dir: newDir,
 			flipPressed: false,
-		});
+        });
+        this.sendMessage(Messages.FLIP_IMAGE);
+        //else remember to flip on next surface
 		} else {
 		this.modifyState({
 			flipPressed: true,
@@ -89,7 +91,8 @@ export class PlayerMovement extends ECS.Component {
 	const pos = this.owner.position;
 	const scrWidth = this.scene.app.screen.width;
 	const scrHeight = this.scene.app.screen.height;
-	const boundRect = this.owner.getBounds();
+    const boundRect = this.owner.getBounds();
+    
 	const diff = delta * this.state.speed;
 	let newDir = dir;
 	//move player up or down
@@ -111,7 +114,8 @@ export class PlayerMovement extends ECS.Component {
 				dir: Direction.DOWN,
 				flipPressed: false,
 				canFlip: false,
-				});
+                });
+                this.sendMessage(Messages.FLIP_IMAGE);
 			} else {
 				this.modifyState({
 				allowedUp: false,
@@ -126,7 +130,8 @@ export class PlayerMovement extends ECS.Component {
 				dir: Direction.UP,
 				flipPressed: false,
 				canFlip: false,
-				});
+                });
+                this.sendMessage(Messages.FLIP_IMAGE);
 			} else {
 				this.modifyState({
 				allowedDown: false,
@@ -183,7 +188,7 @@ export class PlayerMovement extends ECS.Component {
 		case 'BUFF':
 		    this.owner.addComponent(new PlayerBuff(null));
 		    this.scene.stage.removeChild(data.otherObject);
-		    this.owner.asGraphics().tint = 0x00ffff;
+		    //this.owner.asGraphics().tint = 0x00ffff;
         break;
         case 'SLOW':
             this.owner.addComponent(new SlowMotion(null));

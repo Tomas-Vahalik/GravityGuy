@@ -11,6 +11,10 @@ import BlockFactory from '../block_factory/block-factory';
 import DirectionManager from '../direction-manager';
 import ConvertorHelper from '../helpers/convertorHelper';
 
+import { Direction } from '../constants/enums/direction';
+
+
+
 export class LoadManager extends ECS.Component {
   mapData: Map;
   gameScene: Map;
@@ -18,7 +22,7 @@ export class LoadManager extends ECS.Component {
   dir: DirectionManager;
 
   constructor(loader: PIXI.Loader) {
-	super();
+	super(null);
 	this.loader = loader;
 	this.dir = new DirectionManager();
   }
@@ -31,7 +35,7 @@ export class LoadManager extends ECS.Component {
 	);
 
 	this.gameScene = new Map();
-	this.loadMap(Maps.MAP_3, true);
+	this.loadMap(Maps.MAP_1, true);
 	this.loadScene();
   }
   onMessage(msg: ECS.Message) {
@@ -110,13 +114,14 @@ export class LoadManager extends ECS.Component {
 	let ch = this.scene.stage.children.length;
 	this.scene.stage.removeChildren(0, ch);
 	//CREATE PLAYER
-	const player = BlockFactory.getInstance().createPlayer(
-		this.gameScene.spawnpoint
-	);
-	this.scene.stage.addChild(player);
-
+    const player = BlockFactory.getInstance().createPlayer(
+        this.gameScene.spawnpoint, this.loader
+	); 
+	
+    this.scene.stage.addChild(player);
 	this.dir.setDireciton(this.gameScene.dir);
-	this.sendMessage(Messages.PLAYER_DIRECTION, this.dir.getDirection());
+    this.sendMessage(Messages.PLAYER_DIRECTION, this.dir.getDirection());
+    
 	//add all obstacles
 	this.gameScene.blocks.forEach((blockPrefab) => {
 		const newObj = BlockFactory.getInstance().createObstacle(blockPrefab);

@@ -30,7 +30,7 @@ export default class BlockFactory {
   createCheckPoint(prefab: Checkpoint): ECS.Graphics {
 	return new CheckpointEmitter(prefab);
   }
-  createPlayer(spawnPoint: Position): ECS.Graphics {
-	return new Player(spawnPoint);
+  createPlayer(spawnPoint: Position, loader: PIXI.Loader): ECS.Sprite {
+	return new Player(spawnPoint, loader);
   }
 }

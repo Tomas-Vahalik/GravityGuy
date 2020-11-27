@@ -41,7 +41,7 @@ export class PlayerCollider extends ECS.Component {
 		//check if player collides
 		if (this.checkCollisionWith(bounds, otherBounds)) {
 		//If not alredy in collision with this object
-		if (!this.state.inCollisionWith.has(msg.gameObject)) {
+            if (!this.state.inCollisionWith.has(msg.gameObject)) {
 			//get direction of collision
 			let dir = this.checkCollisionDirection(bounds, otherBounds);
 			//remember I am in collision with this object
@@ -56,7 +56,7 @@ export class PlayerCollider extends ECS.Component {
 		}
 		} else {
 		//if i am in collision with this object
-		if (this.state.inCollisionWith.has(msg.gameObject)) {
+            if (this.state.inCollisionWith.has(msg.gameObject)) {
 			//get direction
 			let dir = this.state.inCollisionWith.get(msg.gameObject);
 			//forget this object
@@ -144,16 +144,18 @@ export class PlayerCollider extends ECS.Component {
   //prevent player from moving into obstacle
   adaptPosition(otherBounds: PIXI.Rectangle, dir: Direction) {
 	switch (dir) {
-		case Direction.UP:
-		this.owner.position.y = otherBounds.bottom - 1;
+        case Direction.UP:
+            this.owner.position.y = otherBounds.bottom + this.owner.getBounds().height/2 - 1;
 		break;
-		case Direction.DOWN:
+        case Direction.DOWN:
+            //console.log("player: " + this.owner.position.y);
+            //console.log("obstacle: " + otherBounds.top);
 		this.owner.position.y =
-			otherBounds.top - this.owner.getBounds().height + 1;
+			otherBounds.top - this.owner.getBounds().height/2 + 1;
 		break;
 		case Direction.RIGHT:
 		this.owner.position.x =
-			otherBounds.left - this.owner.getBounds().width + 1;
+			otherBounds.left - this.owner.getBounds().width/2 + 1;
 		break;
 		case Direction.LEFT:
 		break;

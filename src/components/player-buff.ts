@@ -32,7 +32,7 @@ export class PlayerBuff extends ECS.Component {
 	}
 	this.state.durationLeft -= delta;
 	if (this.state.durationLeft <= 0) {
-		this.owner.asGraphics().tint = 0xff0000;
+		//this.owner.asGraphics().tint = 0xff0000;
 		this.owner.removeComponent(this);
 	}
   }

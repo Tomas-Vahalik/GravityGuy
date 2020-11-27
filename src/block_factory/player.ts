@@ -3,21 +3,27 @@ import { GarbageRemoval } from '../components/garbage-removal';
 import { Position } from '../base_elements/position';
 import { PlayerMovement } from '../components/player-movement';
 import { PlayerCollider } from '../components/player-collider';
+import { AnimationComponent } from '../components/player-animation';
 
-export default class ObstacleEmitter extends ECS.Graphics {
-  constructor(spawnPosition: Position) {
-	super();
 
-	this.beginFill(0xffffff);
-	this.tint = 0xff0000;
-	this.drawRect(0, 0, 40, 40);
-	this.name = 'PLAYER';
-	this.addTag('PLAYER');
-	this.endFill();
-	this.position.set(spawnPosition.x, spawnPosition.y);
-	//player.addComponent(new ObstacleCollider(null));
-	this.addComponent(new PlayerCollider(null));
-	this.addComponent(new PlayerMovement(null));
-	this.addComponent(new GarbageRemoval(null));
-  }
+export default class Player extends ECS.Sprite {
+    constructor(spawnPosition: Position, loader: PIXI.Loader) {
+        super();
+     
+
+        let texture = loader.resources['spritesheet'].texture;
+        texture = texture.clone();
+        this.texture = texture;
+
+        this.name = 'PLAYER';
+        this.addTag('PLAYER');
+        this.position.set(spawnPosition.x, spawnPosition.y);
+        this.anchor.set(0.5);
+        this.scale.set(0.25);
+        
+        this.addComponent(new PlayerCollider(null));
+        this.addComponent(new AnimationComponent(loader));
+        this.addComponent(new PlayerMovement(null));
+        this.addComponent(new GarbageRemoval(null));
+    }
 }
