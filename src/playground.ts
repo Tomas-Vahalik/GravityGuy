@@ -1,5 +1,5 @@
 import * as ECS from '../libs/pixi-ecs';
-import { SceneManager } from './scene-manager';
+import { InputManager } from './input-manager';
 import { Block } from './base_elements/block';
 import { LoadManager } from './components/load-manager';
 
@@ -14,7 +14,7 @@ export class Playground {
 
 		this.engine.scene.addGlobalComponent(new ECS.KeyInputComponent());
 		//var SM = new SceneManager(this.engine.app.loader);
-		this.engine.scene.addGlobalComponent(new SceneManager(null));
+		this.engine.scene.addGlobalComponent(new InputManager(null));
 		this.engine.scene.addGlobalComponent(new LoadManager(this.engine.app.loader));
 	}
 }

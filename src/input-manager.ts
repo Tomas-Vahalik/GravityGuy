@@ -1,7 +1,7 @@
 import { Messages} from './constants/enums/messeges';
 import * as ECS from '../libs/pixi-ecs';
 
-export class SceneManager extends ECS.Component {
+export class InputManager extends ECS.Component {
 	keyInput: ECS.KeyInputComponent;
    running = true;
 
