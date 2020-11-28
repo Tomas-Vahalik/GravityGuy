@@ -12,7 +12,7 @@ import DirectionManager from '../../direction-manager';
 import ConvertorHelper from '../../helpers/convertorHelper';
 
 import { Direction } from '../../constants/enums/direction';
-import Score from '../../block_factory/score';
+import Score from '../../block_factory/text';
 
 export class GameScene extends ECS.Component {
   mapData: Map;
@@ -38,7 +38,7 @@ export class GameScene extends ECS.Component {
 	);
 	this.score = 500;
 
-	this.scoreComp = BlockFactory.getInstance().createScore();
+	this.scoreComp = BlockFactory.getInstance().createText(this.score.toString());
 	this.scoreComp.position.set(700, 20);
 
 	this.gameScene = new Map();

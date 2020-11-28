@@ -6,8 +6,8 @@ import { ObstacleCollider } from '../components/obstacle-collider';
 import { SpecialEffect } from '../base_elements/special-effect';
 import { Position } from '../base_elements/position';
 
-export default class Score extends PIXI.Text {
-  constructor() {
+export default class Text extends PIXI.Text {
+  constructor(text: string) {
 	let style = {
 		font: 'bold italic 36px Arial',
 		fill: '#F7EDCA',
@@ -21,6 +21,6 @@ export default class Score extends PIXI.Text {
 		wordWrapWidth: 440,
 	};
 
-	super('300', style);
+	super(text, style);
   }
 }

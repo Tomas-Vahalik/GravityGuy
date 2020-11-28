@@ -7,7 +7,7 @@ import { Position } from '../base_elements/position';
 import * as ECS from '../../libs/pixi-ecs';
 import { SpecialEffect } from '../base_elements/special-effect';
 import { Checkpoint } from '../base_elements/checkpoint';
-import Score from './score';
+import Text from './text';
 
 export default class BlockFactory {
   static _instance: BlockFactory;
@@ -34,7 +34,7 @@ export default class BlockFactory {
   createPlayer(spawnPoint: Position, loader: PIXI.Loader): ECS.Sprite {
 	  return new Player(spawnPoint, loader);
   }
-  createScore(): PIXI.Text {
-	  return new Score();
+  createText(text: string): PIXI.Text {
+	  return new Text(text);
   }
 }
