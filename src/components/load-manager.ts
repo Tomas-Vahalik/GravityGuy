@@ -19,15 +19,18 @@ export class LoadManager extends ECS.Component {
 
   onInit() {
 	this.subscribe(Messages.START_GAME);
+	this.subscribe(Messages.END_GAME);
 
 	this.engine.scene.addGlobalComponent(this.currentScene);
   }
 
   onMessage(msg: ECS.Message) {
+	this.engine.scene.removeGlobalComponent(this.currentScene);
 	if (msg.action == Messages.START_GAME && this.isScoreBoard) {
-		this.engine.scene.removeGlobalComponent(this.currentScene);
-
 		this.currentScene = new GameScene(this.engine.app.loader);
+		this.engine.scene.addGlobalComponent(this.currentScene);
+	} else {
+		this.currentScene = new ScoreBoardScene(this.engine.app.loader);
 		this.engine.scene.addGlobalComponent(this.currentScene);
 	}
   }

@@ -13,6 +13,7 @@ export class Map {
 	specialEffects: SpecialEffect[];
 	checkpoints: Checkpoint[];
 	dir: Direction;
+	isFinalMap: boolean;
 	constructor() {
 		this.spawnpoint = new Position(0, 0);
 		this.blocks = [];

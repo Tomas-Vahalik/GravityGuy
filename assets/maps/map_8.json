@@ -4,6 +4,7 @@
         "y": 50
     },
     "dir":"DOWN",
+    "isFinalMap": true,
     "nextMap":"Map_3",
     "blocks": [        
         { "pos": { "x": 720, "y": 0 }, "width": 50, "height": 50 },

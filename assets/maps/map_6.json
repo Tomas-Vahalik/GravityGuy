@@ -5,9 +5,8 @@
     },
     "dir":"DOWN",
     "nextMap":"Map_7",
-    "blocks": [    
-
-
+    "isFinalMap": false,
+    "blocks": [
         { "pos": { "x": 500, "y": 200 }, "width": 50, "height": 50 },
         { "pos": { "x": 550, "y": 500 }, "width": 500, "height": 30 },
 
@@ -16,14 +15,13 @@
 
         { "pos": { "x": 1700, "y": 0 }, "width": 50, "height": 50 },
         { "pos": { "x": 1750, "y": 500 }, "width": 500, "height": 30 }
+    ],
+    "specialEffects": [
+
 
     ],
-    "specialEffects": [       
-        
-        
-    ],
-    "checkpoints": [       
-        
+    "checkpoints": [
+
         {"block": { "pos": { "x": 1950, "y": 300}, "width": 20, "height": 200 }}
     ]
 }

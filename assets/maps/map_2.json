@@ -5,6 +5,7 @@
     },
     "dir":"DOWN",
     "nextMap":"Map_3",
+    "isFinalMap": false,
     "blocks": [
         { "pos": { "x": 300, "y": 100 }, "width": 200, "height": 30 },
         { "pos": { "x": 600, "y": 410 }, "width": 100, "height": 30 },

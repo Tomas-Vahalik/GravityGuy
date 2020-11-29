@@ -13,6 +13,7 @@ import ConvertorHelper from '../../helpers/convertorHelper';
 
 import { Direction } from '../../constants/enums/direction';
 import Score from '../../block_factory/text';
+import { LOCALSTORAGE_SCORE } from '../../constants/constants';
 
 export class GameScene extends ECS.Component {
   mapData: Map;
@@ -25,7 +26,6 @@ export class GameScene extends ECS.Component {
 
   constructor(loader: PIXI.Loader) {
     super();
-    console.log(loader);
 	this.loader = loader;
 	this.dir = new DirectionManager();
   }
@@ -60,40 +60,53 @@ export class GameScene extends ECS.Component {
 		this.loadScene();
 	}
 	if (msg.action == Messages.SAVE_CHECKPOINT) {
-		//this.mapData = msg.data;
-		this.gameScene = new Map();
-		this.gameScene.dir = this.dir.getDirection();
-		//var block: Block;
-		for (let ch of this.scene.stage.children) {
-			let gameObject: ECS.Container = <ECS.Container>ch;
-			if (gameObject.tags) {
-				switch (gameObject.tags.values().next().value) {
-					case 'PLAYER':
-						this.gameScene.spawnpoint = new Position(
-							gameObject.x,
-							gameObject.y
-						);
+		if (this.mapData.isFinalMap) {
+			let score = [];
+			let items = localStorage.getItem(LOCALSTORAGE_SCORE);
+			if (items) {
+				score = JSON.parse('[' + items + ']');
+				score.push(this.score);
+			} else {
+				score = [this.score];
+			}
+			localStorage.setItem(LOCALSTORAGE_SCORE, score.toString());
+			this.sendMessage(Messages.END_GAME);
+		} else {
+			//this.mapData = msg.data;
+			this.gameScene = new Map();
+			this.gameScene.dir = this.dir.getDirection();
+			//var block: Block;
+			for (let ch of this.scene.stage.children) {
+				let gameObject: ECS.Container = <ECS.Container>ch;
+				if (gameObject.tags) {
+					switch (gameObject.tags.values().next().value) {
+						case 'PLAYER':
+							this.gameScene.spawnpoint = new Position(
+								gameObject.x,
+								gameObject.y
+							);
+							break;
+						case 'OBJECT':
+							this.gameScene.blocks.push(
+								ConvertorHelper.convertGoToBlock(gameObject)
+							);
+							break;
+						case 'BUFF':
+							this.gameScene.specialEffects.push(
+								new SpecialEffect(1, ConvertorHelper.convertGoToBlock(gameObject))
+							);
+							break;
+						case 'SLOW':
+							this.gameScene.specialEffects.push(
+								new SpecialEffect(2, ConvertorHelper.convertGoToBlock(gameObject))
+							);
 						break;
-					case 'OBJECT':
-						this.gameScene.blocks.push(
-							ConvertorHelper.convertGoToBlock(gameObject)
-						);
-						break;
-					case 'BUFF':
-						this.gameScene.specialEffects.push(
-							new SpecialEffect(1, ConvertorHelper.convertGoToBlock(gameObject))
-						);
-						break;
-					case 'SLOW':
-						this.gameScene.specialEffects.push(
-							new SpecialEffect(2, ConvertorHelper.convertGoToBlock(gameObject))
-						);
-					break;
+					}
 				}
 			}
+			this.loadMap(this.mapData.nextMap, false);
+			this.loadScene();
 		}
-		this.loadMap(this.mapData.nextMap, false);
-		this.loadScene();
 	}
 	if (msg.action == Messages.FLIP_GRAVITY) {
 		this.dir.swapDir();
@@ -102,6 +115,7 @@ export class GameScene extends ECS.Component {
 
   loadMap(mapName: Maps, isFirstMap: boolean) {
 	this.mapData = this.loader.resources[mapName].data as Map;
+	console.log(this.mapData.isFinalMap);
 
 	let maxX = 0;
 	if (this.gameScene.blocks.length > 0) {
@@ -116,7 +130,6 @@ export class GameScene extends ECS.Component {
 	);
 	blocks.forEach((x) => {
 		x.pos.x += maxX;
-		console.log(x.pos.x);
 		this.gameScene.blocks.push(x);
 	});
 	let specialEffects = this.mapData.specialEffects.map(
