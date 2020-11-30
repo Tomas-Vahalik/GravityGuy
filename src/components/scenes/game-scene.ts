@@ -70,6 +70,7 @@ export class GameScene extends ECS.Component {
 				score = [this.score];
 			}
 			localStorage.setItem(LOCALSTORAGE_SCORE, score.toString());
+			this.scene.stage.removeChildren();
 			this.sendMessage(Messages.END_GAME);
 		} else {
 			//this.mapData = msg.data;
