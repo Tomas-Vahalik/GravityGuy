@@ -42,6 +42,7 @@ export class PlayerCollider extends ECS.Component {
 		if (this.checkCollisionWith(bounds, otherBounds)) {
 		//If not alredy in collision with this object
             if (!this.state.inCollisionWith.has(msg.gameObject)) {
+              //  msg.component.owner.asGraphics().tint = 0xff0000;
 			//get direction of collision
 			let dir = this.checkCollisionDirection(bounds, otherBounds);
 			//remember I am in collision with this object
@@ -57,6 +58,7 @@ export class PlayerCollider extends ECS.Component {
 		} else {
 		//if i am in collision with this object
             if (this.state.inCollisionWith.has(msg.gameObject)) {
+               // msg.component.owner.asGraphics().tint = 0xffffff;
 			//get direction
 			let dir = this.state.inCollisionWith.get(msg.gameObject);
 			//forget this object
@@ -75,7 +77,14 @@ export class PlayerCollider extends ECS.Component {
 		}
 	}
 	if (msg.action === Messages.OBJECT_DESTROYED) {
-		//forget collision with object
+        //forget collision with object
+        if (this.state.inCollisionWith.has(msg.gameObject)) {
+           
+            this.sendMessage(
+                Messages.COLLISION_END,
+                new CollisionDetails(this.state.inCollisionWith.get(msg.gameObject), msg.component.owner)
+            );
+        }
 		this.state.inCollisionWith.delete(msg.gameObject);
 	}
   }
