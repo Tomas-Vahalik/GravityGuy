@@ -5,6 +5,7 @@ import { Playground } from './playground';
 import BlockFactory from './block_factory/block-factory';
 
 // TODO rename your game
+
 class MyGame {
   engine: ECS.Engine;
 
@@ -44,10 +45,11 @@ class MyGame {
 		.add('background','../assets/graphics/background.png')
 		.load(() => this.onAssetsLoaded());
   }
+ 
 
-  onAssetsLoaded() {
+  onAssetsLoaded() {     
 
-		this.engine.scene.stage.sortableChildren = true;
+      this.engine.scene.stage.sortableChildren = true;        
 
 	new BlockFactory();
 	new Playground(this.engine);

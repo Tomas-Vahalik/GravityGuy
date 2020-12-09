@@ -5,17 +5,55 @@ import { Shift } from '../components/shift';
 import { ObstacleCollider } from '../components/obstacle-collider';
 
 export default class ObstacleEmitter extends ECS.Graphics {
-  constructor(blockPrefab: Block) {
-	super();
-	this.beginFill(0xffffff);
-	this.drawRect(0, 0, blockPrefab.width, blockPrefab.height);
+    dragging = false;
+    data = null;
+    reposition = true;
+    constructor(blockPrefab: Block) {
 
-	this.endFill();
-	this.position.set(blockPrefab.pos.x, blockPrefab.pos.y);
+        super();
+        this.interactive = true;
+        //tmp
+        /*this.on('mousedown', this.onDragStart);
+        this.on('mousemove', this.onDragMove)
+        this.on('mouseup', this.onDragEnd);*/
+        //end tmp
+	    this.beginFill(0xffffff);
+	    this.drawRect(0, 0, blockPrefab.width, blockPrefab.height);
 
-	this.addTag('OBJECT');
-	this.addComponent(new Shift(null));
-	this.addComponent(new GarbageRemoval(null));
-	this.addComponent(new ObstacleCollider(null));
-  }
+	    this.endFill();
+	    this.position.set(blockPrefab.pos.x, blockPrefab.pos.y);
+
+	    this.addTag('OBJECT');
+	    this.addComponent(new Shift(null));
+	    this.addComponent(new GarbageRemoval(null));
+	    this.addComponent(new ObstacleCollider(null));
+    }
+    /*onDragStart(event): void{        
+        this.dragging = true;
+        this.data = event.data;
+        console.log(event.data);
+        
+    }
+    onDragEnd(event): void {
+           
+        this.dragging = false;
+        this.data = null;
+        this.reposition = !this.reposition;
+    }
+    onDragMove(event): void {
+        if (this.dragging && this.reposition) {
+            var newPosition = this.data.getLocalPosition(this.parent);
+            this.position.x = newPosition.x -1;
+            this.position.y = newPosition.y - 1;
+        }
+        if (this.dragging && !this.reposition) {
+            var newPosition = this.data.getLocalPosition(this.parent);
+            var difX = newPosition.x - this.position.x;
+            var difY = newPosition.y - this.position.y;
+            this.width = difX + 1;
+            this.height = difY + 1;
+
+        }
+        
+    }*/
 }

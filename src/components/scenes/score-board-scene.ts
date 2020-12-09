@@ -22,7 +22,7 @@ export class ScoreBoardScene extends ECS.Component {
   constructor(loader: PIXI.Loader) {
 	super();
 	this.loader = loader;
-	let data = localStorage.getItem(LOCALSTORAGE_SCORE);
+	/*let data = localStorage.getItem(LOCALSTORAGE_SCORE);
 	if (data) {
 		console.log("not new");
 		this.score = JSON.parse('[' + data + ']');
@@ -31,15 +31,31 @@ export class ScoreBoardScene extends ECS.Component {
 		console.log("new");
 		localStorage.setItem(LOCALSTORAGE_SCORE, [].toString());
 		this.score = [];
-	}
+	}*/
+    this.sendGet();
+    
+    
   }
 
+  sendGet() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              this.score = JSON.parse(xhr.response);
+              this.score.sort((a, b) => b - a);
+              this.loadScene();
+          }
+      }.bind(this);      
+      xhr.open("GET", "http://localhost:8888/get/", true);
+      xhr.send();
+  }
   onInit() {
-	this.subscribe(Messages.LOAD_CHECKPOINT);
-	this.loadScene();
+      this.subscribe(Messages.LOAD_CHECKPOINT);      
+	  //this.loadScene();
   }
 
   loadScene() {
+      
 	let sceneWidth = this.scene.width;
 	let sceneHeight = this.scene.height;
 

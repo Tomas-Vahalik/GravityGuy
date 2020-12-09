@@ -22,5 +22,7 @@ export enum Messages {
 	MODIFY_SPEED = 'MODIFY_SPEED',
 
 	START_GAME = 'START_GAME',
-	END_GAME= 'END_GAME'
+    END_GAME = 'END_GAME',
+
+    SPAWN_BLOCK = 'SPAWN_BLOCK'
 }

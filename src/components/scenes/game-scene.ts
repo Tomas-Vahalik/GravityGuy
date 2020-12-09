@@ -34,7 +34,8 @@ export class GameScene extends ECS.Component {
 	this.subscribe(
 		Messages.LOAD_CHECKPOINT,
 		Messages.SAVE_CHECKPOINT,
-		Messages.FLIP_GRAVITY
+        Messages.FLIP_GRAVITY,
+        Messages.SPAWN_BLOCK
 	);
 	this.score = 500;
 
@@ -55,13 +56,27 @@ export class GameScene extends ECS.Component {
 	}
 	this.scoreComp.text = this.score.toString();
   }
+
+  sendPost() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              this.scene.stage.removeChildren();
+              this.sendMessage(Messages.END_GAME);
+          }
+      }.bind(this);
+      xhr.open("POST", "http://localhost:8888/post/", true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      var body = this.score;
+      xhr.send(JSON.stringify(body));
+  }
   onMessage(msg: ECS.Message) {
 	if (msg.action == Messages.LOAD_CHECKPOINT) {
 		this.loadScene();
 	}
 	if (msg.action == Messages.SAVE_CHECKPOINT) {
 		if (this.mapData.isFinalMap) {
-			let score = [];
+			/*let score = [];
 			let items = localStorage.getItem(LOCALSTORAGE_SCORE);
 			if (items) {
 				score = JSON.parse('[' + items + ']');
@@ -71,7 +86,8 @@ export class GameScene extends ECS.Component {
 			}
 			localStorage.setItem(LOCALSTORAGE_SCORE, score.toString());
 			this.scene.stage.removeChildren();
-			this.sendMessage(Messages.END_GAME);
+			this.sendMessage(Messages.END_GAME);*/
+            this.sendPost();
 		} else {
 			//this.mapData = msg.data;
 			this.gameScene = new Map();
@@ -111,7 +127,11 @@ export class GameScene extends ECS.Component {
 	}
 	if (msg.action == Messages.FLIP_GRAVITY) {
 		this.dir.swapDir();
-	}
+    }
+    if (msg.action == Messages.SPAWN_BLOCK) {
+        var blockPrefab = new Block(200, 200, 50, 50);
+        this.scene.stage.addChild(BlockFactory.getInstance().createObstacle(blockPrefab));
+    }
   }
 
   loadMap(mapName: Maps, isFirstMap: boolean) {

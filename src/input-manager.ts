@@ -31,7 +31,11 @@ export class InputManager extends ECS.Component {
 		if (this.keyInput.isKeyPressed(ECS.Keys.KEY_ENTER)) {
 			this.keyInput.handleKey(ECS.Keys.KEY_ENTER);
 			this.sendMessage(Messages.START_GAME);
-		}
+        }
+        if (this.keyInput.isKeyPressed(ECS.Keys.KEY_N)) { 
+            this.keyInput.handleKey(ECS.Keys.KEY_N);
+            this.sendMessage(Messages.SPAWN_BLOCK);
+        }
 	}
 
 }
