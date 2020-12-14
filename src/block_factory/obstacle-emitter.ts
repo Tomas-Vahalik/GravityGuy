@@ -4,19 +4,22 @@ import { GarbageRemoval } from '../components/garbage-removal';
 import { Shift } from '../components/shift';
 import { ObstacleCollider } from '../components/obstacle-collider';
 
+//export default class ObstacleEmitter/* extends ECS.NineSlicePlane */{
 export default class ObstacleEmitter extends ECS.Graphics {
     dragging = false;
     data = null;
     reposition = true;
     constructor(blockPrefab: Block) {
-
+        
         super();
         this.interactive = true;
+        
         //tmp
         /*this.on('mousedown', this.onDragStart);
         this.on('mousemove', this.onDragMove)
         this.on('mouseup', this.onDragEnd);*/
         //end tmp
+
 	    this.beginFill(0xffffff);
 	    this.drawRect(0, 0, blockPrefab.width, blockPrefab.height);
 

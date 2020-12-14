@@ -15,14 +15,19 @@ import { Direction } from '../../constants/enums/direction';
 import Score from '../../block_factory/text';
 import { LOCALSTORAGE_SCORE } from '../../constants/constants';
 
+import PIXISound from 'pixi-sound';
+
+
 export class GameScene extends ECS.Component {
   mapData: Map;
   gameScene: Map;
   loader: PIXI.Loader;
   dir: DirectionManager;
+  running: boolean = true;
 
   score: number;
   scoreComp: Score;
+  soundPlaying = false;
 
   constructor(loader: PIXI.Loader) {
     super();
@@ -30,12 +35,25 @@ export class GameScene extends ECS.Component {
 	this.dir = new DirectionManager();
   }
 
+  playMusic() {
+      PIXISound.play('soundtrack', {
+          complete: function () {
+              this.playMusic();
+          }.bind(this)
+      });
+  }
   onInit() {
+      PIXISound.stopAll();
+      this.playMusic();
+      
+            
 	this.subscribe(
 		Messages.LOAD_CHECKPOINT,
 		Messages.SAVE_CHECKPOINT,
         Messages.FLIP_GRAVITY,
-        Messages.SPAWN_BLOCK
+        Messages.SPAWN_BLOCK,
+        Messages.FREEZE,
+        Messages.UNFREEZE
 	);
 	this.score = 500;
 
@@ -48,6 +66,7 @@ export class GameScene extends ECS.Component {
 	this.loadScene();
   }
   onUpdate(delta: number, absolute: number) {
+      if (!this.running) return;
 	this.score -= delta * 0.005;
 	if (this.score < 0) {
 		this.score = 0;
@@ -71,8 +90,30 @@ export class GameScene extends ECS.Component {
       xhr.send(JSON.stringify(body));
   }
   onMessage(msg: ECS.Message) {
-	if (msg.action == Messages.LOAD_CHECKPOINT) {
-		this.loadScene();
+    if (msg.action == Messages.FREEZE) {
+        this.running = false;
+      }
+    if (msg.action == Messages.UNFREEZE) {
+        this.running = true;
+    }
+    if (msg.action == Messages.LOAD_CHECKPOINT) {        
+        if (!this.soundPlaying) {
+            this.soundPlaying = true;
+            this.sendMessage(Messages.FREEZE);
+            this.running = false;
+            PIXISound.pause('soundtrack');
+            PIXISound.play('gameOver', {
+                complete: function () {
+                    this.soundPlaying = false;
+                    this.loadScene();
+                    this.sendMessage(Messages.UNFREEZE);
+                    this.running = true;
+                    PIXISound.play('soundtrack');
+                }.bind(this)
+            });
+        }
+            
+		//this.loadScene();
 	}
 	if (msg.action == Messages.SAVE_CHECKPOINT) {
 		if (this.mapData.isFinalMap) {
@@ -87,8 +128,23 @@ export class GameScene extends ECS.Component {
 			localStorage.setItem(LOCALSTORAGE_SCORE, score.toString());
 			this.scene.stage.removeChildren();
 			this.sendMessage(Messages.END_GAME);*/
-            this.sendPost();
-		} else {
+
+            //Play "Victory" and then send post with score
+            PIXISound.stopAll();
+            this.sendMessage(Messages.FREEZE);
+            this.running = false;
+            PIXISound.play('victory', {
+                volume: 0.75,
+                complete: function () {                 
+                    this.running = true;
+                    this.sendMessage(Messages.UNFREEZE);                    
+                    this.sendPost();
+                }.bind(this)
+            });
+            //this.sendPost();
+        } else {
+
+            PIXISound.play('checkpoint', {volume:2});
 			//this.mapData = msg.data;
 			this.gameScene = new Map();
 			this.gameScene.dir = this.dir.getDirection();

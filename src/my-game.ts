@@ -4,6 +4,8 @@ import { Maps } from './constants/enums/maps';
 import { Playground } from './playground';
 import BlockFactory from './block_factory/block-factory';
 
+
+import PIXISound from 'pixi-sound';
 // TODO rename your game
 
 class MyGame {
@@ -41,9 +43,15 @@ class MyGame {
 		.add(Maps.MAP_7, '../assets/maps/map_7.json')
 		.add(Maps.MAP_8, '../assets/maps/map_8.json')
 		.add('Save', '../assets/save/save1.json')
-		.add('spritesheet', '../assets/graphics/runner.png')
+        .add('spritesheet', '../assets/graphics/runner.png')
+        .add('platform', '../assets/graphics/platform.png')
 		.add('background','../assets/graphics/background.png')
-		.load(() => this.onAssetsLoaded());
+        .load(() => this.onAssetsLoaded());
+
+    PIXISound.add('gameOver', '../../assets/audio/gameOver.wav');
+    PIXISound.add('soundtrack', '../../assets/audio/soundtrack.mp3');    
+    PIXISound.add('victory', '../../assets/audio/victory.mp3');   
+    PIXISound.add('checkpoint', '../../assets/audio/checkpoint.wav'); 
   }
  
 

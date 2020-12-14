@@ -22,8 +22,11 @@ export default class BlockFactory {
 	  return this._instance;
   }
 
-  createObstacle(prefab: Block): ECS.Graphics {
+  /*createObstacle(prefab: Block): ECS.Graphics {
 	  return new ObstacleEmitter(prefab);
+  }*/
+  createObstacle(prefab: Block): ECS.Graphics {
+      return new ObstacleEmitter(prefab);
   }
   createBuff(prefab: SpecialEffect): ECS.Graphics {
 	  return new BuffEmitter(prefab);

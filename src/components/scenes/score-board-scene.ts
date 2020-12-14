@@ -15,11 +15,14 @@ import { Direction } from '../../constants/enums/direction';
 import Score from '../../block_factory/text';
 import { LOCALSTORAGE_SCORE } from '../../constants/constants';
 
+import PIXISound from 'pixi-sound';
+
 export class ScoreBoardScene extends ECS.Component {
   loader: PIXI.Loader;
 
   score: number[];
   constructor(loader: PIXI.Loader) {
+    
 	super();
 	this.loader = loader;
 	/*let data = localStorage.getItem(LOCALSTORAGE_SCORE);
@@ -32,7 +35,7 @@ export class ScoreBoardScene extends ECS.Component {
 		localStorage.setItem(LOCALSTORAGE_SCORE, [].toString());
 		this.score = [];
 	}*/
-    this.sendGet();
+    
     
     
   }
@@ -50,8 +53,11 @@ export class ScoreBoardScene extends ECS.Component {
       xhr.send();
   }
   onInit() {
-      this.subscribe(Messages.LOAD_CHECKPOINT);      
-	  //this.loadScene();
+      this.sendGet();
+      
+      //this.subscribe(Messages.LOAD_CHECKPOINT);      
+      //this.loadScene();
+      
   }
 
   loadScene() {
