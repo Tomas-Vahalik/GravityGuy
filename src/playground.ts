@@ -1,5 +1,5 @@
 import * as ECS from '../libs/pixi-ecs';
-import { InputManager } from './input-manager';
+import { InputManager } from './input_manager/input-manager';
 import { Block } from './base_elements/block';
 import { LoadManager } from './components/load-manager';
 import { GameScene } from './components/scenes/game-scene';

@@ -13,7 +13,7 @@ import ConvertorHelper from '../../helpers/convertorHelper';
 
 import { Direction } from '../../constants/enums/direction';
 import Score from '../../block_factory/text';
-import { LOCALSTORAGE_SCORE } from '../../constants/constants';
+import { LOCALSTORAGE_SCORE, LOCALSTORAGE_NAME } from '../../constants/constants';
 
 import PIXISound from 'pixi-sound';
 
@@ -80,15 +80,18 @@ export class GameScene extends ECS.Component {
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
           if (xhr.readyState == 4 && xhr.status == 200) {
-              this.scene.stage.removeChildren();
               this.sendMessage(Messages.END_GAME);
           }
       }.bind(this);
       xhr.open("POST", "http://localhost:8888/post/", true);
-      xhr.setRequestHeader('Content-type', 'application/json');
-      var body = this.score;
+	  xhr.setRequestHeader('Content-type', 'application/json');
+	  let name = localStorage.getItem(LOCALSTORAGE_NAME);
+      var body = name + ": " +this.score;
       xhr.send(JSON.stringify(body));
   }
+  onRemove(){
+    this.scene.stage.removeChildren();
+}
   onMessage(msg: ECS.Message) {
     if (msg.action == Messages.FREEZE) {
         this.running = false;

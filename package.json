@@ -18,7 +18,9 @@
     "lint": "eslint ./src ./libs --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "dist": "^0.1.2",
     "pixi-sound": "^3.0.5",
+    "pixi-text-input": "^1.0.5",
     "pixi.js": "^5.3.3",
     "reveal.js": "^4.0.2",
     "three": "^0.120.1",
