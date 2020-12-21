@@ -12,10 +12,11 @@ import DirectionManager from '../../direction-manager';
 import ConvertorHelper from '../../helpers/convertorHelper';
 
 import { Direction } from '../../constants/enums/direction';
-import Score from '../../block_factory/text';
+import ScoreComp from '../../block_factory/text';
 import { LOCALSTORAGE_SCORE, LOCALSTORAGE_NAME } from '../../constants/constants';
 
 import PIXISound from 'pixi-sound';
+import { Score } from '../../base_elements/score';
 
 
 export class GameScene extends ECS.Component {
@@ -26,7 +27,7 @@ export class GameScene extends ECS.Component {
   running: boolean = true;
 
   score: number;
-  scoreComp: Score;
+  scoreComp: ScoreComp;
   soundPlaying = false;
 
   constructor(loader: PIXI.Loader) {
@@ -85,8 +86,10 @@ export class GameScene extends ECS.Component {
       }.bind(this);
       xhr.open("POST", "http://localhost:8888/post/", true);
 	  xhr.setRequestHeader('Content-type', 'application/json');
-	  let name = localStorage.getItem(LOCALSTORAGE_NAME);
-      var body = name + ": " +this.score;
+      let name = localStorage.getItem(LOCALSTORAGE_NAME);
+      var s = new Score(name, this.score);
+      //var body = name + ": " +this.score;
+      var body = s;
       xhr.send(JSON.stringify(body));
   }
   onRemove(){
@@ -119,19 +122,7 @@ export class GameScene extends ECS.Component {
 		//this.loadScene();
 	}
 	if (msg.action == Messages.SAVE_CHECKPOINT) {
-		if (this.mapData.isFinalMap) {
-			/*let score = [];
-			let items = localStorage.getItem(LOCALSTORAGE_SCORE);
-			if (items) {
-				score = JSON.parse('[' + items + ']');
-				score.push(this.score);
-			} else {
-				score = [this.score];
-			}
-			localStorage.setItem(LOCALSTORAGE_SCORE, score.toString());
-			this.scene.stage.removeChildren();
-			this.sendMessage(Messages.END_GAME);*/
-
+        if (this.mapData.isFinalMap) {
             //Play "Victory" and then send post with score
             PIXISound.stopAll();
             this.sendMessage(Messages.FREEZE);
@@ -144,10 +135,9 @@ export class GameScene extends ECS.Component {
                     this.sendPost();
                 }.bind(this)
             });
-            //this.sendPost();
+            
         } else {
-
-            PIXISound.play('checkpoint', {volume:2});
+            PIXISound.play('checkpoint', {volume:2});           
 			//this.mapData = msg.data;
 			this.gameScene = new Map();
 			this.gameScene.dir = this.dir.getDirection();
@@ -225,12 +215,10 @@ export class GameScene extends ECS.Component {
 	});
 	let checkpoints = this.mapData.checkpoints.map(
 		(x) =>
-		new Checkpoint(
-			new Block(x.block.pos.x, x.block.pos.y, x.block.width, x.block.height)
-		)
+            new Checkpoint(new Position(x.pos.x, x.pos.y), x.direction)
 	);
 	checkpoints.forEach((x) => {
-		x.block.pos.x += maxX;
+		x.pos.x += maxX;
 		this.gameScene.checkpoints.push(x);
 	});
 
@@ -265,8 +253,8 @@ export class GameScene extends ECS.Component {
 	});
 	//add checkpoints
 	this.gameScene.checkpoints.forEach((checkpointPrefab) => {
-		const newCheck = BlockFactory.getInstance().createCheckPoint(
-		checkpointPrefab
+        const newCheck = BlockFactory.getInstance().createCheckPoint(
+            checkpointPrefab, this.mapData.isFinalMap, this.loader
 		);
 		this.scene.stage.addChild(newCheck);
 	});

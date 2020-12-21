@@ -20,8 +20,9 @@
 
 
     ],
+    
     "checkpoints": [
 
-        {"block": { "pos": { "x": 1950, "y": 300}, "width": 20, "height": 200 }}
+        {"pos": { "x": 2050, "y": 450},"direction":"DOWN"}
     ]
 }

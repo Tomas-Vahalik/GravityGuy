@@ -1,14 +1,22 @@
 
 import { Block } from './block';
+import { Direction } from '../constants/enums/direction';
+import { Position } from './position';
 
 export class Checkpoint {
+    direction: Direction;
+    //block: Block;
+    pos: Position;
+	/*constructor(block: Block, dir:Direction) {
+        this.block = block;
+        this.direction = dir;
+	}*/
+    constructor(pos: Position, dir: Direction) {
+        this.pos = pos;
+        this.direction = dir;
+    }
 
-	block: Block;
-	constructor(block: Block) {
-		this.block = block;
-	}
-
-	copy = () => {
-		return new Checkpoint(this.block.copy());
+    copy = () => {
+        return new Checkpoint(this.pos, this.direction);
 	}
 }

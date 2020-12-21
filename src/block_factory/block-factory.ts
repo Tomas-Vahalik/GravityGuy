@@ -22,18 +22,17 @@ export default class BlockFactory {
 	  return this._instance;
   }
 
-  /*createObstacle(prefab: Block): ECS.Graphics {
-	  return new ObstacleEmitter(prefab);
-  }*/
+
   createObstacle(prefab: Block): ECS.Graphics {
       return new ObstacleEmitter(prefab);
   }
   createBuff(prefab: SpecialEffect): ECS.Graphics {
 	  return new BuffEmitter(prefab);
+  }  
+  createCheckPoint(prefab: Checkpoint, isFinish: boolean, loader: PIXI.Loader): ECS.Sprite {
+      return new CheckpointEmitter(prefab, isFinish, loader);
   }
-  createCheckPoint(prefab: Checkpoint): ECS.Graphics {
-	  return new CheckpointEmitter(prefab);
-  }
+    
   createPlayer(spawnPoint: Position, loader: PIXI.Loader): ECS.Sprite {
 	  return new Player(spawnPoint, loader);
   }

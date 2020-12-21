@@ -38,8 +38,9 @@
     "specialEffects": [
       
     ],
+    
     "checkpoints": [
-        {"block": { "pos": { "x": 2800, "y": 300}, "width": 20, "height": 200 }}
+        {"pos": { "x": 2800, "y": 450},"direction":"DOWN"}
        
     ]
 }

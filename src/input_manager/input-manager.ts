@@ -17,10 +17,15 @@ export class InputManager extends ECS.Component {
 			this.gameState = GameState.SCORE_BOARD;
 		} else {
 			this.gameState = GameState.NAME_INPUT;
-		}
+        }
+        this.subscribe(Messages.END_GAME);
 	}
 
-
+    onMessage(msg: ECS.Message) {
+        if (msg.action == Messages.END_GAME) {
+            this.gameState = GameState.SCORE_BOARD;
+        }
+    }
 	onUpdate(delta: number, absolute: number) {
 		console.log(this.gameState);
 		switch (this.gameState) {
@@ -57,7 +62,12 @@ export class InputManager extends ECS.Component {
 				if (this.keyInput.isKeyPressed(ECS.Keys.KEY_N)) {
 					this.keyInput.handleKey(ECS.Keys.KEY_N);
 					this.sendMessage(Messages.SPAWN_BLOCK);
-				}
+                }
+                if (this.keyInput.isKeyPressed(ECS.Keys.KEY_ENTER)) {
+                    this.keyInput.handleKey(ECS.Keys.KEY_ENTER);
+                    this.gameState = GameState.GAME_ACTIVE
+                    this.sendMessage(Messages.START_GAME);
+                }
 				break;
 			case GameState.NAME_INPUT:
 				if (this.keyInput.isKeyPressed(ECS.Keys.KEY_ENTER)) {

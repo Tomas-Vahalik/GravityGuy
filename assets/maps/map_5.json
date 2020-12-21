@@ -45,9 +45,10 @@
         { "type": 2, "block": { "pos": { "x": 2700, "y": 480 }, "width": 20, "height": 20 } }
         
     ],
+    
     "checkpoints": [       
-        
-        {"block": { "pos": { "x": 2600, "y": 300}, "width": 20, "height": 600 }}
+        { "pos": { "x": 2600, "y": 100},"direction":"UP"},    
+        {"pos": { "x": 2600, "y": 465},"direction":"DOWN"}
         
     ]
 }

@@ -15,7 +15,8 @@
 
     "specialEffects": [
     ],
+    
     "checkpoints": [
-        {"block": { "pos": { "x": 1000, "y": 150}, "width": 20, "height": 200 }}
+        {"pos": { "x": 1000, "y": 300},"direction":"DOWN"}
     ]
 }

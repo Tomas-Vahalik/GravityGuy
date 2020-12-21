@@ -44,6 +44,8 @@ class MyGame {
 		.add(Maps.MAP_8, '../assets/maps/map_8.json')
 		.add('Save', '../assets/save/save1.json')
         .add('spritesheet', '../assets/graphics/runner.png')
+        .add('checkpoint', '../assets/graphics/checkpoint.png')
+        .add('finish', '../assets/graphics/finish.png')
         .add('platform', '../assets/graphics/platform.png')
 		.add('background','../assets/graphics/background.png')
         .load(() => this.onAssetsLoaded());

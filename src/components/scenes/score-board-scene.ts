@@ -2,11 +2,12 @@ import * as ECS from '../../../libs/pixi-ecs';
 
 import BlockFactory from '../../block_factory/block-factory';
 import { LOCALSTORAGE_NAME } from '../../constants/constants';
+import { Score } from '../../base_elements/score';
 
 export class ScoreBoardScene extends ECS.Component {
   loader: PIXI.Loader;
-
-  score: number[];
+  
+  score: Score[];
   constructor(loader: PIXI.Loader) {
     
 	super();
@@ -18,7 +19,7 @@ export class ScoreBoardScene extends ECS.Component {
       xhr.onreadystatechange = function () {
           if (xhr.readyState == 4 && xhr.status == 200) {
               this.score = JSON.parse(xhr.response);
-              this.score.sort((a, b) => b - a);
+              this.score.sort((a, b) => b.score - a.score);
               this.loadScene();
           }
       }.bind(this);      
@@ -48,12 +49,16 @@ export class ScoreBoardScene extends ECS.Component {
 		this.score.forEach((val, index) => {
 			if (index < 10) {
 			const number = BlockFactory.getInstance().createText((index + 1) +'.');
-			number.position.set(sceneWidth / 4 - 50, 70 + 40 * index);
+			number.position.set(sceneWidth / 4 - 50, 80 + 40 * index);
 			this.scene.stage.addChild(number);
 
-			const score = BlockFactory.getInstance().createText(val.toString());
-			score.position.set(sceneWidth - sceneWidth / 4, 70 + (40 * index));
-			this.scene.stage.addChild(score);
+			const score = BlockFactory.getInstance().createText(val.score.toString());
+            score.position.set(sceneWidth - sceneWidth / 4, 80 + (40 * index));
+            this.scene.stage.addChild(score);
+
+            const playerName = BlockFactory.getInstance().createText(val.player.toString());
+            playerName.position.set(sceneWidth - sceneWidth / 2 - 80, 80 + (40 * index));
+            this.scene.stage.addChild(playerName);
 			}
 		});
 	} else {
