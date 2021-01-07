@@ -44,15 +44,28 @@ Ve hře máme 4 druhy objektů :
 
 Pro vytváření objektů jsme využili factory pattern.
 
-## Důležité komponenty
-Kolize řeší komponenty **Player collider** a **Obstacle collider**. Obstacle collider je komponenta,
-kterou mají všechny objekty, se kterými může hráč přijít do styku - překážky, speciální efekty i checkpointy.
-Každý update posílá pozici svého majitele. Komponenta Player collider na to reaguje a spočítá, jestli je hráč s daným objektem v kolizi.
-Neřeší už ale, co se má v případě kolize stát. To má na starosti další komponenta.
+## Komponenty u objektů
 
-Další důležitou komponentou je **Player movement**. Ta má na starosti hráčův pohyb - reagovat na změny gravitace a na kolize s objekty.
-Dostává zprávy od collideru o kolizích, podívá se, s jakým objektem kolize nastala a provede příslušnou akci.
+**Obstacle collider** - komponenta, kterou mají všechny objekty, se kterými může hráč přijít do styku - překážky, speciální efekty i checkpointy.
+Každý update posílá ve zprávě pozici svého majitele.
 
-Poslední komponenta, kterou bychom chtěli zmínit je **Garbage removal**. Ta má na starost odstranit objekty, které vypadly ze scény.
+**Shift** - komponenta, která posouvá objekty zprava doleva. Mají ji všechny překážky, speciální efekty a checkpointy, 
+hráč ji získá, pokud koliduje s překážkou zprava.
+
+**Garbage removal** -  má na starost odstranit objekty, které vypadly ze scény.
 Pokud vypadl hráč, pošle zprávu o tom, že by se měl načíst poslední checkpoint. Když vypadne něco jiného, tak daný objekt zničí,
 aby se s ním zbytečně nepočítalo např. při zjišťování kolizí.
+
+## Komponenty u hráče
+
+**Player collider** - reaguje na zprávy od **Obstacle collider**, rozhoduje, zda je hráč s daným objktem v kolizi.
+
+**Player movement** - hlavní obladač hráče. Má na starosti pohyb hráče - nahoru a dolů, reaguje na změny gravitace. 
+Vždy když nastane kolize (detekovaná colliderem), tak rozhodne co se má stát podle toho, s jakým objektem hráč koliduje.
+
+**Player buff** a **Slow motion** - přidávají se ke hráči při kolizi se speciálním efektem. Jedna zrychlí hráče (pohyb doprava), 
+druhá zpomalí čas.
+
+**Animation component** - řeší animaci hráče (když je zpomalený čas, i animace se přehrává pomaleji).
+
+
