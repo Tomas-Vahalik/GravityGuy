@@ -31,19 +31,8 @@ export default class CheckpointEmitter extends ECS.Sprite {
         }
 
         this.addComponent(new Shift(null));
-        //this.addComponent(new GarbageRemoval(null));
+        this.addComponent(new GarbageRemoval(null));
         this.addComponent(new ObstacleCollider(null))
-	/*super();
-
-	this.beginFill(0x0000ff);
-    this.drawRect(0, 0, checkpointPrefab.block.width, checkpointPrefab.block.height);
-
-	this.endFill();
-    this.position.set(checkpointPrefab.block.pos.x, checkpointPrefab.block.pos.y);
-
-	this.addTag('CHECKPOINT');
-	this.addComponent(new Shift(null));
-	this.addComponent(new GarbageRemoval(null));
-	this.addComponent(new ObstacleCollider(null));*/
+	
   }
 }

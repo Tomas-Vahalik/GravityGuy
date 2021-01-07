@@ -10,7 +10,7 @@ export class CollisionDetails {
 	this.otherObject = o;
   }
 }
-//TODO: vyresit collision left
+
 export class PlayerCollider extends ECS.Component {
   state = {
 	//map of objects that the player collides

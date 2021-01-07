@@ -4,7 +4,7 @@ import { GarbageRemoval } from '../components/garbage-removal';
 import { Shift } from '../components/shift';
 import { ObstacleCollider } from '../components/obstacle-collider';
 
-//export default class ObstacleEmitter/* extends ECS.NineSlicePlane */{
+
 export default class ObstacleEmitter extends ECS.Graphics {
     dragging = false;
     data = null;
