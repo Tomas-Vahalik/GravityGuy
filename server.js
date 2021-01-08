@@ -60,7 +60,7 @@ let port = process.env.PORT || 5000;
   app.use(cors())
   app.use(bodyParser.json())
   app.use(helmet())
-  app.use(express.static('build_project'))
+  app.use(express.static( __dirname + '/build_project'))
 
   app.listen(port, function () {
     // console.log(`Example app listening on port ${port}!`);

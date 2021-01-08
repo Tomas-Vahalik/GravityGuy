@@ -16,6 +16,7 @@ export class LoadManager extends ECS.Component {
 
 	let name = localStorage.getItem(LOCALSTORAGE_NAME);
 	if (name) {
+		// this.currentScene = new GameScene(this.engine.app.loader);
 		this.currentScene = new ScoreBoardScene(this.engine.app.loader);
 	} else {
 		this.currentScene = new NameInputScene(this.engine.app.loader);
