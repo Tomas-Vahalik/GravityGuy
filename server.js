@@ -65,17 +65,16 @@ let port = process.env.PORT || 5000;
   app.listen(port, function () {
     // console.log(`Example app listening on port ${port}!`);
   });
+  app.get('/get', (req, res) => {
+    res.send(JSON.stringify(data))
+  })
+  app.post('/post', function (req, res) {
+    data.push(JSON.parse(req.body));
+    res.send('saved')
+  })
 
   app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/build_project/index.html'));
   })
 
 
-  app.get('/get', (req, res) => {
-    res.send(JSON.stringify(data))
-  })
-
-  app.post('/post', function (req, res) {
-    data.push(JSON.parse(req.body));
-    res.send('saved')
-  })
