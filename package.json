@@ -19,7 +19,7 @@
     "clean-repo": "node scripts/clean-repo.js",
     "deploy-all": "npm run deploy-examples && npm run deploy-slides && node scripts/copy_materials.js && cd wiki && npm run build && cd ..",
     "lint": "eslint ./src ./libs --ext .js,.jsx,.ts,.tsx",
-    "dev-server": "npm start server.js"
+    "dev-server": "node server.js"
   },
   "dependencies": {
     "dist": "^0.1.2",
