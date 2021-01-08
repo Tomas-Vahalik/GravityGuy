@@ -2,7 +2,7 @@ import * as ECS from '../../libs/pixi-ecs';
 import { Block } from '../base_elements/block';
 import { GarbageRemoval } from '../components/garbage-removal';
 import { Shift } from '../components/shift';
-import { ObstacleCollider } from '../components/obstacle-collider';
+
 import { SpecialEffect } from '../base_elements/special-effect';
 
 export default class BuffEmitter extends ECS.Graphics {

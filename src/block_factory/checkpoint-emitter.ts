@@ -2,7 +2,7 @@ import * as ECS from '../../libs/pixi-ecs';
 import { Block } from '../base_elements/block';
 import { GarbageRemoval } from '../components/garbage-removal';
 import { Shift } from '../components/shift';
-import { ObstacleCollider } from '../components/obstacle-collider';
+
 import { Checkpoint } from '../base_elements/checkpoint';
 import { Direction } from '../constants/enums/direction';
 
