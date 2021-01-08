@@ -7,7 +7,7 @@
     "heroku-postbuild": "npm install && npm run build",
     "heroku-prebuild": "npm install --dev",
     "start": "npm run dev",
-    "dev": "concurrently \"npm run dev-server\" \"node scripts/prebuild-project.js && parcel view/index.html --out-dir build_project\"",
+    "dev": "node scripts/prebuild-project.js && parcel view/index.html --out-dir build_project && npm run dev-server",
     "dev-slides": "npm run prebuild-slides && npm run serve-slides",
     "serve-slides": "parcel slides/view/*.html slides/view/*.pug --out-dir build_slides",
     "prebuild-slides": "node scripts/prebuild-slides.js",
