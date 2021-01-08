@@ -1,5 +1,4 @@
-
-image: node:11.10.1-buster
+image: node:12.8-buster
 before_script:
   - apt-get update -y
   - apt-get install rubygems -y
