@@ -17,8 +17,7 @@ export class PlayerCollider extends ECS.Component {
 	inCollisionWith: new Map(),
 	running: true,
   };
-  onInit() {
-	this.subscribe(Messages.OBJECT_POSITION);
+  onInit() {	
 	this.subscribe(Messages.OBJECT_DESTROYED);
 	this.subscribe(Messages.FREEZE);
 	this.subscribe(Messages.UNFREEZE);
@@ -34,48 +33,7 @@ export class PlayerCollider extends ECS.Component {
 		running: true,
 		});
 	}
-	if (msg.action === Messages.OBJECT_POSITION) {
-		let bounds = this.owner.getBounds();
-		let otherBounds = msg.data;
-
-		//check if player collides
-		if (this.checkCollisionWith(bounds, otherBounds)) {
-		//If not alredy in collision with this object
-            if (!this.state.inCollisionWith.has(msg.gameObject)) {
-              //  msg.component.owner.asGraphics().tint = 0xff0000;
-			//get direction of collision
-			let dir = this.checkCollisionDirection(bounds, otherBounds);
-			//remember I am in collision with this object
-			this.state.inCollisionWith.set(msg.gameObject, dir);
-			//adapt player position
-			this.adaptPosition(otherBounds, dir);
-			//send message
-			this.sendMessage(
-			Messages.COLLISION,
-			new CollisionDetails(dir, msg.component.owner)
-			);
-		}
-		} else {
-		//if i am in collision with this object
-            if (this.state.inCollisionWith.has(msg.gameObject)) {
-               // msg.component.owner.asGraphics().tint = 0xffffff;
-			//get direction
-			let dir = this.state.inCollisionWith.get(msg.gameObject);
-			//forget this object
-			this.state.inCollisionWith.delete(msg.gameObject);
-			//if there is no other collision that way, send message
-			let directions: string[] = Array.from(
-			this.state.inCollisionWith.values()
-			);
-			if (!directions.includes(dir)) {
-			this.sendMessage(
-				Messages.COLLISION_END,
-				new CollisionDetails(dir, msg.component.owner)
-			);
-			}
-		}
-		}
-	}
+    
 	if (msg.action === Messages.OBJECT_DESTROYED) {
         //forget collision with object
         if (this.state.inCollisionWith.has(msg.gameObject)) {
@@ -88,7 +46,49 @@ export class PlayerCollider extends ECS.Component {
 		this.state.inCollisionWith.delete(msg.gameObject);
 	}
   }
-  onUpdate(delta: number, absolute: number) {}
+  onUpdate(delta: number, absolute: number) {
+      var obstacles = this.scene.findObjectsByTag("COLLIDABLE");
+      for (var o of obstacles) {
+          var bounds = this.owner.getBounds();
+          var otherBounds = o.getBounds();
+          if (this.checkCollisionWith(bounds, otherBounds)) {
+              //If not alredy in collision with this object
+              if (!this.state.inCollisionWith.has(o)) {
+                  //  msg.component.owner.asGraphics().tint = 0xff0000;
+                  //get direction of collision
+                  let dir = this.checkCollisionDirection(bounds, otherBounds);
+                  //remember I am in collision with this object
+                  this.state.inCollisionWith.set(o, dir);
+                  //adapt player position
+                  this.adaptPosition(otherBounds, dir);
+                  //send message
+                  this.sendMessage(
+                      Messages.COLLISION,
+                      new CollisionDetails(dir, o)
+                  );
+              }
+          } else {
+              //if i am in collision with this object
+              if (this.state.inCollisionWith.has(o)) {
+                  // msg.component.owner.asGraphics().tint = 0xffffff;
+                  //get direction
+                  let dir = this.state.inCollisionWith.get(o);
+                  //forget this object
+                  this.state.inCollisionWith.delete(o);
+                  //if there is no other collision that way, send message
+                  let directions: string[] = Array.from(
+                      this.state.inCollisionWith.values()
+                  );
+                  if (!directions.includes(dir)) {
+                      this.sendMessage(
+                          Messages.COLLISION_END,
+                          new CollisionDetails(dir, o)
+                      );
+                  }
+              }
+          }
+      }
+  }
   //checks if player collides with given object
   checkCollisionWith(
 	bounds: PIXI.Rectangle,
@@ -168,8 +168,10 @@ export class PlayerCollider extends ECS.Component {
 		break;
 		case Direction.LEFT:
 		break;
-	}
+      }
+      
   }
+  
   private modifyState(obj) {
 	this.state = {
 		...this.state,

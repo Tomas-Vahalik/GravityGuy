@@ -26,10 +26,11 @@ export default class ObstacleEmitter extends ECS.Graphics {
 	    this.endFill();
 	    this.position.set(blockPrefab.pos.x, blockPrefab.pos.y);
 
-	    this.addTag('OBJECT');
+        this.addTag('OBJECT');
+        this.addTag('COLLIDABLE');
 	    this.addComponent(new Shift(null));
 	    this.addComponent(new GarbageRemoval(null));
-	    this.addComponent(new ObstacleCollider(null));
+	    
     }
     /*onDragStart(event): void{        
         this.dragging = true;

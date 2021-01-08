@@ -16,9 +16,10 @@ export default class BuffEmitter extends ECS.Graphics {
 	this.position.set(blockPrefab.block.pos.x, blockPrefab.block.pos.y);
 
 	if (blockPrefab.type == 1) { this.addTag('BUFF'); }
-	else if (blockPrefab.type == 2) { this.addTag('SLOW'); }      
+    else if (blockPrefab.type == 2) { this.addTag('SLOW'); }   
+    this.addTag('COLLIDABLE');
 	this.addComponent(new Shift(null));
 	this.addComponent(new GarbageRemoval(null));
-	this.addComponent(new ObstacleCollider(null));
+	
   }
 }

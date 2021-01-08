@@ -22,6 +22,7 @@ export default class CheckpointEmitter extends ECS.Sprite {
         this.texture = texture;
         
         this.addTag('CHECKPOINT');
+        this.addTag('COLLIDABLE');
         this.anchor.set(0.5);
         this.position.set(checkpointPrefab.pos.x, checkpointPrefab.pos.y);
         console.log(this.position);
@@ -32,7 +33,7 @@ export default class CheckpointEmitter extends ECS.Sprite {
 
         this.addComponent(new Shift(null));
         this.addComponent(new GarbageRemoval(null));
-        this.addComponent(new ObstacleCollider(null))
+        
 	
   }
 }
