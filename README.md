@@ -12,7 +12,6 @@ npm run dev
 Ten spustí jednak jednoduchý backend server a následně i samotnou hru.
 
 
-
 # Architektura hry
 Jak již bylo zmíněno, ke hře jsme vytvořili jednoduchý Nodejs server, který přijímá HTTP požadavky pro uložení nového skóre (POST),
 nebo pro vrácení seznamu všech dosažených bodů společně s přezdívkami hráčů, kteří jich dosáhli (GET). Server si dosažené skóre ukládá pouze
