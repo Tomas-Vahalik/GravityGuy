@@ -65,6 +65,11 @@ let port = process.env.PORT || 5000;
     // console.log(`Example app listening on port ${port}!`);
   });
 
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/view/index.html'));
+  })
+
+
   app.get('/get', (req, res) => {
     res.send(JSON.stringify(data))
   })
