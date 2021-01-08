@@ -13,8 +13,8 @@ Ten spustí jednak jednoduchý backend server a následně i samotnou hru.
 
 
 # Architektura hry
-Jak již bylo zmíněno, ke hře jsme vytvořili jednoduchý Nodejs server, který příjimá HTTP požadavky pro uložení nového skóre (POST),
-nebo pro vrácení seznamu všech dosažených bodů společně s přezdívkami hráčů, kteří jich dosáhli (GET). Server si dosažené skóre ulkádá pouze
+Jak již bylo zmíněno, ke hře jsme vytvořili jednoduchý Nodejs server, který přijímá HTTP požadavky pro uložení nového skóre (POST),
+nebo pro vrácení seznamu všech dosažených bodů společně s přezdívkami hráčů, kteří jich dosáhli (GET). Server si dosažené skóre ukládá pouze
 in-memory, tedy při každém restartu se záznamy ztratí.
 
 Samotná hra využívá ECS architekturu.
@@ -24,7 +24,7 @@ Ve hře využíváme 4 globální komponenty:
 **ECS Input Component** - pouze zaznamenává stisknutí kláves
 
 
-**Input Manager** - zkoumá, která tlačítka jsou stiknutá a reaguje na to posíláním příslušných zpráv
+**Input Manager** - zkoumá, která tlačítka jsou stisknutá a reaguje na to posíláním příslušných zpráv
 
 **Komponenta se současnou scénou** - ve hře jsou 3 scény: vybrání přezdívky, zobrazení výsledků a samotná hra
 
@@ -46,8 +46,6 @@ Pro vytváření objektů jsme využili factory pattern.
 
 ## Komponenty u objektů
 
-**Obstacle collider** - komponenta, kterou mají všechny objekty, se kterými může hráč přijít do styku - překážky, speciální efekty i checkpointy.
-Každý update posílá ve zprávě pozici svého majitele.
 
 **Shift** - komponenta, která posouvá objekty zprava doleva. Mají ji všechny překážky, speciální efekty a checkpointy, 
 hráč ji získá, pokud koliduje s překážkou zprava.
@@ -58,9 +56,10 @@ aby se s ním zbytečně nepočítalo např. při zjišťování kolizí.
 
 ## Komponenty u hráče
 
-**Player collider** - reaguje na zprávy od **Obstacle collider**, rozhoduje, zda je hráč s daným objktem v kolizi.
+**Player collider** - Komponenta řešící kolize. Každý update si najde seznam všech herních objektů s tagem "COLLIDABLE"
+a pro každý z nich rozhodne, zda s ním hráč koliduje nebo ne. Posílá zprávy při vstoupení a vystoupení z kolize.
 
-**Player movement** - hlavní obladač hráče. Má na starosti pohyb hráče - nahoru a dolů, reaguje na změny gravitace. 
+**Player movement** - hlavní ovladač hráče. Má na starosti pohyb hráče - nahoru a dolů, reaguje na změny gravitace. 
 Vždy když nastane kolize (detekovaná colliderem), tak rozhodne co se má stát podle toho, s jakým objektem hráč koliduje.
 
 **Player buff** a **Slow motion** - přidávají se ke hráči při kolizi se speciálním efektem. Jedna zrychlí hráče (pohyb doprava), 
