@@ -23,7 +23,7 @@ export class ScoreBoardScene extends ECS.Component {
               this.loadScene();
           }
       }.bind(this);      
-      xhr.open("GET", "http://localhost:8888/get/", true);
+      xhr.open("GET", "https://gravity-guy.herokuapp.com/get/", true);
       xhr.send();
   }
   onInit() {

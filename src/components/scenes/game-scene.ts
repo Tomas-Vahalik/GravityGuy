@@ -84,7 +84,7 @@ export class GameScene extends ECS.Component {
               this.sendMessage(Messages.END_GAME);
           }
       }.bind(this);
-      xhr.open("POST", "http://localhost:8888/post/", true);
+      xhr.open("POST", "https://gravity-guy.herokuapp.com/post/", true);
 	  xhr.setRequestHeader('Content-type', 'application/json');
       let name = localStorage.getItem(LOCALSTORAGE_NAME);
       var s = new Score(name, this.score);

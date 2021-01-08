@@ -1,9 +1,11 @@
 var http = require("http");
 const fs = require('fs');
 
+let port = process.env.PORT || 5000;
+
 var data = [];
 http.createServer(function (req, res) {
-    
+
     // initialize the body to get the data asynchronously
     req.body = "";
 
@@ -12,10 +14,10 @@ http.createServer(function (req, res) {
         req.body += chunk;
     });
 
-    
-    req.on('end', function () {        
+
+    req.on('end', function () {
         var origin = req.headers['origin'];
-        if (req.url == "/get/" && req.method == "GET") {                        
+        if (req.url == "/get/" && req.method == "GET") {
             res.setHeader("Access-Control-Allow-Origin", origin);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             //IN MEMORY SOLUTION
@@ -26,10 +28,10 @@ http.createServer(function (req, res) {
             let data = JSON.parse(rawData);
             console.log("returning: " + JSON.stringify(data));
             res.end(JSON.stringify(data));*/
-        }      
+        }
         else if (req.url == "/post/" && req.method == "POST") {
             res.setHeader("Access-Control-Allow-Origin", origin);
-            res.writeHead(200);           
+            res.writeHead(200);
             //IN MEMORY SOLUTION
             data.push(JSON.parse(req.body));
 
@@ -39,9 +41,9 @@ http.createServer(function (req, res) {
                 json.push(JSON.parse(req.body))
                 console.log(json);
                 fs.writeFileSync("score.json", JSON.stringify(json))
-            })*/           
+            })*/
             res.end('ok');
-        }        
+        }
         else if (req.method == "OPTIONS") {
             console.log("options");
             res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
@@ -49,7 +51,6 @@ http.createServer(function (req, res) {
             res.setHeader("Access-Control-Allow-Headers", "*");
             res.end();
         }
-        
     });
 
-}).listen(8888);
+}).listen(port);
