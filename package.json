@@ -5,9 +5,9 @@
   "license": "MIT",
   "scripts": {
     "heroku-postbuild": "npm install",
-    "heroku-prebuild": "npm install && parcel build src/index.html --out-dir build_project",
+    "heroku-prebuild": "npm install && node scripts/prebuild-project.js && parcel build view/index.html --out-dir build_project",
     "start": "npm run dev",
-    "dev": "concurrently \"npm run dev-server\" \"node scripts/prebuild-project.js && parcel view/index.html --out-dir build_project\"",
+    "dev": "npm run dev-server",
     "dev-slides": "npm run prebuild-slides && npm run serve-slides",
     "serve-slides": "parcel slides/view/*.html slides/view/*.pug --out-dir build_slides",
     "prebuild-slides": "node scripts/prebuild-slides.js",
