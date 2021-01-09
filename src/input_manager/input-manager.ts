@@ -27,7 +27,7 @@ export class InputManager extends ECS.Component {
         }
     }
 	onUpdate(delta: number, absolute: number) {
-		console.log(this.gameState);
+		// console.log(this.gameState);
 		switch (this.gameState) {
 			case GameState.SCORE_BOARD:
 				if (this.keyInput.isKeyPressed(ECS.Keys.KEY_ENTER)) {

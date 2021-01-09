@@ -17,23 +17,20 @@ export default class CheckpointEmitter extends ECS.Sprite {
         else {
             texture = loader.resources['checkpoint'].texture;
         }
-        
+
         texture = texture.clone();
         this.texture = texture;
-        
+
         this.addTag('CHECKPOINT');
         this.addTag('COLLIDABLE');
         this.anchor.set(0.5);
         this.position.set(checkpointPrefab.pos.x, checkpointPrefab.pos.y);
-        console.log(this.position);
+        // console.log(this.position);
         this.scale.set(0.25);
         if (checkpointPrefab.direction == Direction.UP) {
             this.scale.y *= -1;
         }
-
         this.addComponent(new Shift(null));
         this.addComponent(new GarbageRemoval(null));
-        
-	
   }
 }

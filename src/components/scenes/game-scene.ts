@@ -185,7 +185,7 @@ export class GameScene extends ECS.Component {
 
   loadMap(mapName: Maps, isFirstMap: boolean) {
 	this.mapData = this.loader.resources[mapName].data as Map;
-	console.log(this.mapData.isFinalMap);
+	// console.log(this.mapData.isFinalMap);
 
 	let maxX = 0;
 	if (this.gameScene.blocks.length > 0) {

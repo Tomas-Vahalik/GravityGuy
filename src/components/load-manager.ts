@@ -41,9 +41,9 @@ export class LoadManager extends ECS.Component {
 		this.currentScene = new NameInputScene(this.engine.app.loader);
 	} else if (msg.action == Messages.LOAD_BOARD || msg.action == Messages.END_GAME) {
 		this.currentScene = new ScoreBoardScene(this.engine.app.loader);
-		console.log("score")
+		// console.log("score")
 	}
-	console.log("added")
+	// console.log("added")
 	this.engine.scene.addGlobalComponent(this.currentScene);
   }
 }
