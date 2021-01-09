@@ -54,8 +54,8 @@ export class PlayerCollider extends ECS.Component {
           if (this.checkCollisionWith(bounds, otherBounds)) {
               //If not alredy in collision with this object
               if (!this.state.inCollisionWith.has(o)) {
-                   if (o.hasTag("OBJECT"))
-                    o.asGraphics().tint = 0xff0000;
+                   /*if (o.hasTag("OBJECT"))
+                    o.asGraphics().tint = 0xff0000;*/
                   //get direction of collision
                   let dir = this.checkCollisionDirection(bounds, otherBounds);
                   //remember I am in collision with this object
@@ -71,8 +71,8 @@ export class PlayerCollider extends ECS.Component {
           } else {
               //if i am in collision with this object
               if (this.state.inCollisionWith.has(o)) {
-                  if (o.hasTag("OBJECT"))
-                   o.asGraphics().tint = 0xffffff;
+                  /*if (o.hasTag("OBJECT"))
+                   o.asGraphics().tint = 0xffffff;*/
                   //get direction
                   let dir = this.state.inCollisionWith.get(o);
                   //forget this object
