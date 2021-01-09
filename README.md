@@ -19,6 +19,15 @@ nebo pro vrácení seznamu všech dosažených bodů společně s přezdívkami 
 in-memory, tedy při každém restartu se záznamy ztratí.
 
 Samotná hra využívá ECS architekturu.
+
+<img alt="diagram" src="APH_Component_Diagram.png">
+
+# Nasazení hry
+
+Hra je nasazena na Heroku (<a href="https://gravity-guy.herokuapp.com/">Zde</a>) a buduje si solidní hráčskou základnu.
+
+<img alt="hraci" src="Hraci.PNG">
+
 ## Globální komponenty
 Ve hře využíváme 4 globální komponenty:
 
