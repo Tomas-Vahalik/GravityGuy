@@ -4,8 +4,8 @@
   "version": "4.4.0",
   "license": "MIT",
   "scripts": {
-    "heroku-postbuild": "npm install && npm run build",
-    "heroku-prebuild": "parcel build src/index.html --out-dir build_project",
+    "heroku-postbuild": "npm install",
+    "heroku-prebuild": "npm install && parcel build src/index.html --out-dir build_project",
     "start": "npm run dev",
     "dev": "concurrently \"npm run dev-server\" \"node scripts/prebuild-project.js && parcel view/index.html --out-dir build_project\"",
     "dev-slides": "npm run prebuild-slides && npm run serve-slides",
