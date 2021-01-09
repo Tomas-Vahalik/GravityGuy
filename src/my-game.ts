@@ -3,7 +3,8 @@ import * as PIXI from 'pixi.js';
 import { Maps } from './constants/enums/maps';
 import { Playground } from './playground';
 import BlockFactory from './block_factory/block-factory';
-
+import { install } from '@pixi/unsafe-eval';
+install(PIXI);
 
 import PIXISound from 'pixi-sound';
 // TODO rename your game
