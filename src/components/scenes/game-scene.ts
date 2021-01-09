@@ -62,7 +62,7 @@ export class GameScene extends ECS.Component {
 	this.scoreComp.position.set(700, 20);
 
 	this.gameScene = new Map();
-	this.loadMap(Maps.MAP_7, true);
+	this.loadMap(Maps.MAP_1, true);
 
 	this.loadScene();
   }
