@@ -22,6 +22,7 @@
     "dev-server": "node server.js"
   },
   "dependencies": {
+    "@pixi/unsafe-eval": "^5.3.7",
     "@typescript-eslint/eslint-plugin": "4.0.1",
     "@typescript-eslint/parser": "4.0.1",
     "axios": "^0.21.1",
