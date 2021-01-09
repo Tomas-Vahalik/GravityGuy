@@ -69,7 +69,7 @@ let port = process.env.PORT || 5000;
     res.send(JSON.stringify(data))
   })
   app.post('/post', function (req, res) {
-    data.push(JSON.parse(req.body));
+    data.push(req.body);
     res.send('saved')
   })
 
