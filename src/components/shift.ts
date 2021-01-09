@@ -6,6 +6,10 @@ export class Shift extends ECS.Component {
 		running: true,
 		speed:0.5,
 	};
+	constructor() {        
+        super(null);
+        this._name = "Shift";
+    }
 	onInit() {
 		this.subscribe(Messages.FREEZE);
 		this.subscribe(Messages.UNFREEZE);
