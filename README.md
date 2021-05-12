@@ -11,6 +11,8 @@ npm run dev
 ```
 Ten spustí jednak jednoduchý backend server a následně i samotnou hru.
 
+### Hra se ovládá pomocí klávesy SPACE, kterou hráč mění gravitaci.
+
 
 
 # Architektura hry
